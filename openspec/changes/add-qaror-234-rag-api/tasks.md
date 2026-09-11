@@ -33,12 +33,12 @@
 
 ## 5. Indexing and hybrid retrieval
 
-- [ ] 5.1 Define retrieval protocols and implement `OllamaEmbedder` (batched `/api/embed`, normalization, timeout, errors → `EmbeddingUnavailableError`); verify unit tests with a fake Ollama client
-- [ ] 5.2 Implement `ChromaVectorStore` (persistent, cosine, metadata, calls via `asyncio.to_thread`); verify an add/query round trip in a temp directory with fake vectors
-- [ ] 5.3 Implement `BM25Index` over stemmed lexical text; verify that an inflected query form scores the chunk containing another form
-- [ ] 5.4 Implement RRF fusion with document-order tie-break; verify unit tests for ranking and ties
-- [ ] 5.5 Implement the explicit-reference router; verify "2-ilovaning 6-bandida nima deyilgan?" → `a2-b6`, "Qarorning 7-bandi" → `q-b7`, "1-ilova 2-qator" → `a1-r2`
-- [ ] 5.6 Implement `HybridRetriever` (query normalization, dense + BM25 candidates, fusion, pinned references, cross-reference expansion, context budget, relevance signal); verify tests over a fixture index built with `FakeEmbedder`
+- [x] 5.1 Define retrieval protocols and implement `OllamaEmbedder` (batched `/api/embed`, normalization, timeout, errors → `EmbeddingUnavailableError`); verify unit tests with a fake Ollama client
+- [x] 5.2 Implement `ChromaVectorStore` (persistent, cosine, metadata, calls via `asyncio.to_thread`); verify an add/query round trip in a temp directory with fake vectors
+- [x] 5.3 Implement `BM25Index` over stemmed lexical text; verify that an inflected query form scores the chunk containing another form
+- [x] 5.4 Implement RRF fusion with document-order tie-break; verify unit tests for ranking and ties
+- [x] 5.5 Implement the explicit-reference router; verify "2-ilovaning 6-bandida nima deyilgan?" → `a2-b6`, "Qarorning 7-bandi" → `q-b7`, "1-ilova 2-qator" → `a1-r2`
+- [x] 5.6 Implement `HybridRetriever` (query normalization, dense + BM25 candidates, fusion, pinned references, cross-reference expansion, context budget, relevance signal); verify tests over a fixture index built with `FakeEmbedder`
 - [ ] 5.7 Implement the ingestion pipeline with fingerprinted versioned index directories, atomic `CURRENT` pointer and pruning, plus `python -m app.cli ingest [--refresh] [--strategy]`; verify a FakeEmbedder test of the atomic swap and a real run against Ollama that writes a manifest with the expected chunk count
 
 ## 6. Grounded answering
