@@ -22,14 +22,14 @@
 
 ## 4. Structural chunking
 
-- [ ] 4.1 Implement item chunks with breadcrumbs, stable ids (design D1 grammar), element ids and deep links; verify tests for `a2-b6` breadcrumb text, `q-b6` content and deep-link format
-- [ ] 4.2 Implement definition chunks; verify the `ekolog-ekspert` definition chunk exists, contains "kamida uzluksiz uch yil ish stajiga ega" and references `a2-b2`
-- [ ] 4.3 Implement Appendix 1 row chunks as standalone sentences plus metadata; verify tests for `a1-r2` and `a1-r69` wording and metadata
-- [ ] 4.4 Implement scheme-stage, footnote and form chunks; verify the footnote chunk about unlisted activity types and at least one scheme stage chunk per scheme
-- [ ] 4.5 Implement oversize splitting at sub-item boundaries with repeated breadcrumb and lead sentence; verify `a9-b1` is split into parts and no part exceeds the max size unless a single sub-item does
-- [ ] 4.6 Implement cross-reference extraction; verify `a2-b5` lists `a2-b4` and appendix references resolve to existing chunks
-- [ ] 4.7 Implement the fixed-size baseline chunker; verify window size and overlap in a unit test
-- [ ] 4.8 Verify determinism: chunking the snapshot twice yields identical ids and texts, and all ids are unique
+- [x] 4.1 Implement item chunks with breadcrumbs, stable ids (design D1 grammar), element ids and deep links; verify tests for `a2-b6` breadcrumb text, `q-b6` content and deep-link format
+- [x] 4.2 Implement definition chunks; verify the `ekolog-ekspert` definition chunk exists, contains "kamida uzluksiz uch yil ish stajiga ega" and references `a2-b2`
+- [x] 4.3 Implement Appendix 1 row chunks as standalone sentences plus metadata; verify tests for `a1-r2` and `a1-r69` wording and metadata
+- [x] 4.4 Implement scheme-stage, footnote and form chunks; verify the footnote chunk about unlisted activity types and at least one scheme stage chunk per scheme
+- [x] 4.5 Implement oversize splitting at sub-item boundaries with repeated breadcrumb and lead sentence; verify `a9-b1` is split into parts and no part exceeds the max size unless a single sub-item does
+- [x] 4.6 Implement cross-reference extraction; verify `a2-b5` lists `a2-b4` and appendix references resolve to existing chunks
+- [x] 4.7 Implement the fixed-size baseline chunker; verify window size and overlap in a unit test
+- [x] 4.8 Verify determinism: chunking the snapshot twice yields identical ids and texts, and all ids are unique
 
 ## 5. Indexing and hybrid retrieval
 

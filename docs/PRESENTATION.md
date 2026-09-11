@@ -72,7 +72,7 @@ Arxitekturani tanlashdan oldin hujjat o'lchab chiqildi. Bu raqamlar dizayndagi h
 | Tuzilma | Asosiy qaror (8 band) + 9 ilova; 2–8-ilovalar nizom (bob → band → kichik bandlar) | Tuzilma bo'yicha chunking |
 | Raqamli bandlar | 277 ta; mediana 264 belgi, 90% i 1 070 belgidan qisqa, eng uzuni 5 837 belgi | Asosiy birlik = band. Faqat juda uzunlari bo'linadi |
 | Qisqa bandlar | 62 tasi 150 belgidan qisqa | Kontekst yetishi uchun har bir bo'lakka hujjatdagi yo'li qo'shiladi |
-| Atamalar | 68 ta "atama — ta'rif" | Har bir atama alohida bo'lak |
+| Atamalar | 41 ta "atama — ta'rif" (2–8-ilovalarning 2-bandlarida) | Har bir atama alohida bo'lak |
 | 1-ilova jadvali | 221 qator: 3 toifa (I yuqori, II o'rtacha, III past xavf), 13–16 soha; muddat (ish kuni) va to'lov (BXM) | Har bir qator to'liq gapga aylantiriladi |
 | Ichki havolalar | 31 ta band havolasi, 23 ta ilova havolasi | Havola qilingan band avtomatik kontekstga qo'shiladi |
 | Sxemalar | 7 ta SXEMA (bosqich → subyekt → tadbir → muddat) | Har bir bosqich alohida bo'lak |
@@ -184,7 +184,7 @@ Foydalanuvchiga ko'rsatiladigan iqtiboslar esa asl yozuvda qoladi.
 | Bo'lak turi | Qoida | Soni (taxminan) |
 |---|---|---|
 | Band | 1 band + barcha kichik bandlari | 277 |
-| Atama | Har bir "atama — ta'rif" alohida bo'lak, o'z bandiga havola bilan | 68 |
+| Atama | Har bir "atama — ta'rif" alohida bo'lak, o'z bandiga havola bilan | 41 |
 | Jadval qatori | 1-ilovadagi har bir qator: toifa, xavf darajasi, soha, faoliyat, muddat va to'lov bilan to'liq gap | 221 |
 | Sxema bosqichi | Bosqich raqami, subyekt, tadbir, muddat | ~40 |
 | Izoh, ariza namunasi | Har biri alohida bo'lak | ~15 |

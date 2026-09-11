@@ -9,7 +9,7 @@ Motivation and scope: see `proposal.md`. Requirements: see `specs/*/spec.md`. Th
 | Text volume | ~190 000 characters (~60–90 K tokens) — does not fit a local 4–9 B model context, so retrieval is required |
 | Structure | main resolution (8 items) + 9 appendices; appendices 2–8 are regulations (`N-bob` → `N.` item → unnumbered sub-items) |
 | Numbered items | 277 — median 264 chars, p90 ≈ 1 070, max 5 837 (appendix 9, item 1, 24 sub-items); 62 items under 150 chars |
-| Definitions | 68 `term — definition` lines in "asosiy tushunchalar" items |
+| Definitions | 41 `term — definition` lines in the "asosiy tushunchalar" items (item 2 of appendices 2–8) |
 | Appendix 1 table | 221 rows; 3 categories (I high, II medium, III low hazard) × 13–16 sectors; columns: activity, deadline (working days), fee (BXM) |
 | Other | 7 workflow schemes (SXEMA), footnotes, application/certificate forms, 31 item cross-references, 23 appendix references |
 | Markup | server-rendered; every element has a semantic class (`ACT_TEXT`, `TEXT_HEADER_DEFAULT`, `APPL_BANNER_LANDSCAPE_TITLE`, `ACT_TITLE_APPL`, `ACT_FORM`, `TABLE_STD2`, `FOOTNOTE`, `TEXT_CENTER`) and sits in a `<div id="-82054xx">` usable as a deep-link anchor; interface text ("Hujjatga taklif yuborish…") is embedded inside elements |
@@ -54,7 +54,7 @@ A single-pass walker over `div#divCont` classifies elements by class and builds 
 ### D3. One normalization function for index and query; light Uzbek stemmer for BM25 only
 - `normalize()` maps all apostrophe variants to ASCII `'` (both oʻ/gʻ and tutuq belgisi — users type `'`), transliterates Uzbek Cyrillic (ў→o', ғ→g', қ→q, ҳ→h, ш→sh, ч→ch, ё→yo, ю→yu, я→ya, е→ye word-initially/after vowels else e, ц→ts, ъ→', ь→∅), NFC-normalizes and collapses whitespace.
 - Dense text keeps casing; lexical text is lowercased, tokenized on non-letters (keeping in-word `'` and `-`), and stemmed.
-- Stemmer: ordered longest-first inflectional suffixes (plural `-lar`; possessive `-imiz -ingiz -lari -si -im -ing -i`; case `-ning -ni -ga -ka -qa -da -ta -dan -tan -dagi -gacha`), up to 3 stripping passes, minimum stem length 3.
+- Stemmer: ordered longest-first inflectional suffixes (plural `-lar`; third-person possessive `-lari -si -i`; case `-ning -ni -ga -da -dan -dagi -gacha`, plus doubled datives `-qqa`/`-kka`), up to 3 stripping passes, minimum stem length 3, and the `-lig → -lik` alternation (vazirligi → vazirlik). First/second-person possessives are left out on purpose: legal text never uses them, and stripping them over-stems words such as "monitoring".
 
 *Rejected:* no stemming — Uzbek is agglutinative ("ekspertiza / ekspertizasi / ekspertizasidan / ekspertizaning"), so BM25 misses matches. Character n-grams — larger index, noisier scores, harder to explain. A full morphological analyzer — no maintained lightweight Python package for Uzbek.
 

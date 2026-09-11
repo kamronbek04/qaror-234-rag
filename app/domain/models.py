@@ -100,6 +100,7 @@ class Document(BaseModel):
 
 
 class ChunkType(StrEnum):
+    OVERVIEW = "overview"
     ITEM = "item"
     PARAGRAPH = "paragraph"
     DEFINITION = "definition"
