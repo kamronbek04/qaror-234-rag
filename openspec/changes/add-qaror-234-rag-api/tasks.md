@@ -1,4 +1,4 @@
-﻿## 1. Project foundation
+## 1. Project foundation
 
 - [x] 1.1 Create `pyproject.toml` (Python ≥ 3.11; runtime deps: fastapi, uvicorn[standard], pydantic-settings, ollama, chromadb, rank-bm25, beautifulsoup4, lxml, httpx; dev deps: pytest, pytest-asyncio, ruff) with ruff and pytest configuration; verify `pip install -e ".[dev]"` succeeds in a fresh Python 3.12 virtualenv
 - [x] 1.2 Create the package skeleton from design D12 (`app/core`, `app/domain`, `app/text`, `app/ingestion`, `app/retrieval`, `app/generation`, `app/services`, `app/api`, `app/web`, `eval/`, `tests/unit`, `tests/api`, `tests/integration`); verify `python -c "import app"` and `pytest` (empty suite) both succeed
@@ -14,11 +14,11 @@
 
 ## 3. Parsing the resolution
 
-- [ ] 3.1 Implement `app/domain/models.py` (`DocumentNode`, `TableRow`, `Chunk`, `ScoredChunk`, `RetrievalResult`, `Answer`, enums for node/chunk types and answer status); verify models construct and serialize in a unit test
-- [ ] 3.2 Implement `app/ingestion/source.py` (load snapshot; optional refresh that validates before replacing and keeps the old snapshot on failure); verify unit tests with a mocked HTTP transport for success, HTTP error and invalid page
-- [ ] 3.3 Implement `app/ingestion/lex_parser.py` (class-driven walker: main resolution, appendices, titles, document types, chapters, items with sub-items, attachments, element ids, UI-noise stripping); verify tests on the snapshot: 9 appendices, appendix 2 has 8 chapters, item 4 of appendix 2 has 6 sub-items, no UI noise strings anywhere
-- [ ] 3.4 Parse the Appendix 1 table into 221 typed rows (category, hazard level, sector, number, activity, deadline days, fee BXM or fee text); verify tests for rows 2 (I, 25, 25), 69 (II, 25, 15) and 134 (III, 15, 7,5)
-- [ ] 3.5 Implement parse integrity checks; verify a test where appendix headers are removed from the HTML raises an error naming the missing appendices
+- [x] 3.1 Implement `app/domain/models.py` (`DocumentNode`, `TableRow`, `Chunk`, `ScoredChunk`, `RetrievalResult`, `Answer`, enums for node/chunk types and answer status); verify models construct and serialize in a unit test
+- [x] 3.2 Implement `app/ingestion/source.py` (load snapshot; optional refresh that validates before replacing and keeps the old snapshot on failure); verify unit tests with a mocked HTTP transport for success, HTTP error and invalid page
+- [x] 3.3 Implement `app/ingestion/lex_parser.py` (class-driven walker: main resolution, appendices, titles, document types, chapters, items with sub-items, attachments, element ids, UI-noise stripping); verify tests on the snapshot: 9 appendices, appendix 2 has 8 chapters, item 4 of appendix 2 has 6 sub-items, no UI noise strings anywhere
+- [x] 3.4 Parse the Appendix 1 table into 221 typed rows (category, hazard level, sector, number, activity, deadline days, fee BXM or fee text); verify tests for rows 2 (I, 25, 25), 69 (II, 25, 15) and 134 (III, 15, 7,5)
+- [x] 3.5 Implement parse integrity checks; verify a test where appendix headers are removed from the HTML raises an error naming the missing appendices
 
 ## 4. Structural chunking
 
