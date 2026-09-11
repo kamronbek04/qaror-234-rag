@@ -40,6 +40,11 @@ asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 markers = ["ollama: needs a running Ollama server with the configured models"]
 addopts = "-m 'not ollama'"
+filterwarnings = [
+    "ignore::DeprecationWarning:chromadb.*",
+    "ignore::DeprecationWarning:starlette.*",
+    "ignore:Using `httpx` with `starlette.testclient`",
+]
 
 [tool.ruff]
 line-length = 100

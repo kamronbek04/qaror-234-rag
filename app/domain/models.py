@@ -154,6 +154,7 @@ class RetrievalResult(BaseModel):
     chunks: list[ScoredChunk]
     top_similarity: float = 0.0
     reference_match: bool = False
+    lexical_anchor: bool = False
 
 
 # --- Answers ---------------------------------------------------------------------------------

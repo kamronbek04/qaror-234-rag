@@ -48,8 +48,19 @@ When a selected chunk references other chunks, the referenced chunks SHALL be ad
 - **THEN** chunk `a2-b4`, which lists those objects, is included in the context as an expansion
 
 ### Requirement: Relevance signal for the refusal gate
-Retrieval SHALL report, for every query, the highest semantic similarity among the candidates and whether the query produced any explicit reference match. These values MUST be computed deterministically and exposed to the answering stage and in debug output.
+Retrieval SHALL report, for every query, the highest semantic similarity among the candidates, whether the query produced any explicit reference match, and whether a multi-digit number from the query (other than the resolution's own number 234) occurs in a selected chunk (lexical anchor). These values MUST be computed deterministically and exposed to the answering stage and in debug output.
+
+#### Scenario: Exact number is reported as an anchor
+- **WHEN** the query is "541-son qaror nima boʻldi?"
+- **THEN** the lexical anchor is reported because chunk `q-b6` contains 541, while "234-son qaror" and "2-ilovaning 6-bandi" report no anchor
 
 #### Scenario: Unrelated question has low relevance
 - **WHEN** the query is "Toshkentda ertaga ob-havo qanday boʻladi?"
 - **THEN** the reported top semantic similarity is below the configured refusal threshold
+
+### Requirement: Result diversity
+The final selection SHALL contain at most two parts of the same split item, so that one long item cannot crowd other relevant chunks out of the context.
+
+#### Scenario: Long amendment item does not flood the context
+- **WHEN** five parts of item 1 of appendix 9 rank above chunk `q-b6` for a query and `top_k` is 4
+- **THEN** exactly two of those parts are selected and `q-b6` is also selected

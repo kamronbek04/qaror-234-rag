@@ -45,6 +45,7 @@ class Settings(BaseSettings):
     # Source and index
     source_url: str = "https://lex.uz/uz/docs/-8193120"
     source_html: Path = Path("data/raw/lex_8193120.html")
+    source_snapshot_date: str = "2026-09-11"
     index_dir: Path = Path("data/index")
     index_keep_versions: int = Field(2, ge=1)
     auto_ingest: bool = True

@@ -10,13 +10,19 @@ from pydantic import ValidationError
 
 from app.domain.models import Answer, AnswerStatus, RetrievalResult, ScoredChunk
 from app.generation.guard import AnswerGuard, Verdict
-from app.generation.prompts import LLMAnswer, build_messages, format_reminder, number_feedback
+from app.generation.prompts import (
+    LLMAnswer,
+    build_messages,
+    correction_feedback,
+    format_reminder,
+)
 from app.generation.protocols import ChatModel
 from app.retrieval.protocols import Retriever
 
 logger = logging.getLogger(__name__)
 
 _MAX_ATTEMPTS = 2
+_CORRECTABLE = {"unsupported_numbers", "unsupported_terms"}
 _JSON_OBJECT = re.compile(r"\{.*\}", re.DOTALL)
 
 
@@ -47,13 +53,18 @@ class RagService:
         retrieval = await self._retriever.retrieve(question, top_k)
         retrieval_ms = _elapsed_ms(started)
 
-        passed = retrieval.reference_match or retrieval.top_similarity >= self._threshold
+        passed = (
+            retrieval.reference_match
+            or retrieval.lexical_anchor
+            or retrieval.top_similarity >= self._threshold
+        )
         trace: dict[str, Any] = {
             "gate": {
                 "passed": passed,
                 "top_similarity": round(retrieval.top_similarity, 4),
                 "threshold": self._threshold,
                 "reference_match": retrieval.reference_match,
+                "lexical_anchor": retrieval.lexical_anchor,
             },
             "retrieval": [_describe(item) for item in retrieval.chunks],
             "attempts": [],
@@ -90,7 +101,7 @@ class RagService:
                 trace["attempts"].append({"reason": "malformed_output", "raw": raw[:500]})
                 messages = [*messages, {"role": "assistant", "content": raw}, format_reminder()]
                 continue
-            verdict = self._guard.check(draft, excerpts)
+            verdict = self._guard.check(draft, excerpts, question=question)
             trace["attempts"].append(
                 {
                     "ok": verdict.ok,
@@ -99,15 +110,16 @@ class RagService:
                     "citations": verdict.citations,
                     "dropped_citations": verdict.dropped_citations,
                     "unsupported_numbers": verdict.unsupported_numbers,
+                    "unsupported_terms": verdict.unsupported_terms,
                     "raw": raw[:1000],
                 }
             )
-            if verdict.reason != "unsupported_numbers":
+            if verdict.reason not in _CORRECTABLE:
                 return verdict, excerpts
             messages = [
                 *messages,
                 {"role": "assistant", "content": raw},
-                number_feedback(verdict.unsupported_numbers),
+                correction_feedback(verdict.unsupported_numbers, verdict.unsupported_terms),
             ]
         return None, excerpts
 

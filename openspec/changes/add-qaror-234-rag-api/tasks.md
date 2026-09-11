@@ -48,13 +48,15 @@
 - [x] 6.3 Implement `AnswerGuard` (refusal constant, citation filtering, number verification, partial suffix); verify unit tests for every `grounded-answering` scenario that does not need a real model
 - [x] 6.4 Implement `RagService` (retrieve → gate → generate under semaphore → verify → one retry → respond, with debug trace); verify tests with `FakeChatModel`: the gate skips the model, a wrong number triggers retry then refusal, a fabricated citation yields refusal, malformed output twice yields refusal, a correct answer passes
 
+- [x] 6.5 Harden the pipeline against failures found in live testing with qwen2.5:7b (numeric-anchor gate for "541-son", spelled-number and currency guard, forced `partial` for unsupported currencies, two-parts-per-item diversity, range-reading prompt rule); verify with regression unit tests and a re-run of the demo questions
+
 ## 7. HTTP API and demo page
 
-- [ ] 7.1 Implement API schemas, `create_app()`, lifespan container, request-id middleware and error handlers; verify the app starts with a fake container in tests
-- [ ] 7.2 Implement `/api/v1/ask`, `/api/v1/search`, `/api/v1/chunks/{chunk_id}` and `/health`; verify API tests for 200, 422 (empty, too long, bad `top_k`), 404 and 503 (backend down, missing model, stale index) and the request-id round trip
-- [ ] 7.3 Verify bounded concurrency: 5 simultaneous asks with a bound of 2 all succeed while `/health` answers in under one second (API test with a slow fake model)
-- [ ] 7.4 Implement the self-contained demo page at `/` (question box, status, answer, clickable sources, no external assets); verify an API test that `/` returns the page and a manual browser check against the running stack
-- [ ] 7.5 Add OpenAPI examples for every endpoint; verify `/docs` shows them
+- [x] 7.1 Implement API schemas, `create_app()`, lifespan container, request-id middleware and error handlers; verify the app starts with a fake container in tests
+- [x] 7.2 Implement `/api/v1/ask`, `/api/v1/search`, `/api/v1/chunks/{chunk_id}` and `/health`; verify API tests for 200, 422 (empty, too long, bad `top_k`), 404 and 503 (backend down, missing model, stale index) and the request-id round trip
+- [x] 7.3 Verify bounded concurrency: 5 simultaneous asks with a bound of 2 all succeed while `/health` answers in under one second (API test with a slow fake model)
+- [x] 7.4 Implement the self-contained demo page at `/` (question box, status, answer, clickable sources, no external assets); verify an API test that `/` returns the page and a manual browser check against the running stack
+- [x] 7.5 Add OpenAPI examples for every endpoint; verify `/docs` shows them
 
 ## 8. Runtime and containers
 

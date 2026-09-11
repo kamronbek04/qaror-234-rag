@@ -73,13 +73,14 @@ Chroma is listed in the task, needs no extra container, persists to disk, and st
 ### D7. Fusion: Reciprocal Rank Fusion + explicit-reference routing + cross-reference expansion
 - The top 30 dense and top 30 BM25 candidates are fused with RRF (k = 60); the final `top_k` defaults to 6.
 - A reference router recognizes `N-ilova`, `N-bob`, `N-band`, `qarorning N-bandi` and `N-qator`/`N-bandida` on Appendix 1, and pins the matching chunks first.
+- At most two parts of the same split item are selected, so one long amendment item cannot crowd out the rest (found in live testing: five parts of `a9-b1` buried `q-b6`).
 - Up to 3 cross-referenced chunks are appended as expansions.
 - The context budget is 3 500 estimated tokens (characters / 3, conservative for Uzbek), with lowest-ranked excerpts dropped first.
 
 *Rejected:* weighted score sums — cosine and BM25 scales are incomparable and would need per-query normalization. A cross-encoder reranker (`bge-reranker-v2-m3`) — needs PyTorch (2 GB+), is not served by Ollama, and would break the "everything through Ollama" story; it stays behind a `Reranker` protocol as a future option. LLM-based reranking — adds a full model call of latency.
 
 ### D8. Refusal gate on calibrated dense similarity
-The gate uses the maximum cosine similarity among dense candidates (an absolute, comparable number), not the RRF score (rank-only, not comparable across queries). Its job is to drop *clearly* unrelated questions cheaply, so the threshold sits below the lowest in-document score seen in the retrieval evaluation, with a margin. Borderline questions go through to the model, which can still return `not_found`, and to verification. An explicit reference match bypasses the gate.
+The gate uses the maximum cosine similarity among dense candidates (an absolute, comparable number), not the RRF score (rank-only, not comparable across queries). Its job is to drop *clearly* unrelated questions cheaply, so the threshold sits below the lowest in-document score seen in the retrieval evaluation, with a margin. Borderline questions go through to the model, which can still return `not_found`, and to verification. An explicit reference match bypasses the gate, and so does a numeric anchor: a multi-digit number from the question (other than 234) that occurs in a selected chunk. Live testing showed "541-son qaror nima bo'ldi?" scoring only 0.45 dense similarity while BM25 found `q-b6` with a large margin; numbers in legal questions are strong, exact signals that embeddings blur.
 *Rejected:* gating on the RRF score — no absolute meaning. A high threshold that makes the gate the main defence — it would produce many false refusals for colloquial questions.
 
 ### D9. Generation: Ollama chat with JSON-schema-constrained output
@@ -97,7 +98,9 @@ A pure function with no model involved:
 2. Citations not among the supplied chunk ids are dropped; no valid citation left → refusal.
 3. Every number in the answer (`\d+(?:[.,]\d+)?`, comma treated as decimal point) must occur in the text or breadcrumb of a cited chunk. On failure there is one regeneration with feedback that names the unsupported numbers; a second failure → refusal.
 4. Status `partial` → if the answer lacks the refusal sentence, the code appends "Savolning qolgan qismi boʻyicha: Hujjatda bu haqida ma'lumot yo'q."
-5. Schema-invalid output → one retry, then refusal.
+5. Spelled-out numbers ("yigirma besh") and currency words (dollar, so'm, evro, rubl…) in claims must also occur in the cited text. This closes the gap that digits-only checking leaves: in live testing qwen2.5:7b answered "25 BXM … bu dollarda 25 bo'ladi", which the number check alone accepted because 25 was in the source. Sentences that only say the document lacks something are exempt, so a correct partial answer may name the missing currency.
+6. If the question asks for a currency that the cited text never uses, the result is forced to `partial` even when the model says `answered`.
+7. Schema-invalid output → one retry, then refusal.
 
 Every decision is recorded in debug output.
 *Rejected:* LLM-as-judge — a second model call doubles latency, and small models are unreliable judges. An NLI entailment model — needs PyTorch. Both could be added behind the same guard interface later.
@@ -182,7 +185,8 @@ The pipeline is about 1 500 lines of plain Python behind explicit protocols: par
 - [`bge-m3` retrieval quality on Uzbek is only moderate] → BM25 with Uzbek stemming covers exact terms and numbers, breadcrumbs add context, reference routing handles explicit citations, and hit@5 is tracked against a target.
 - [A miscalibrated threshold causes false refusals or lets junk through] → the gate is only a coarse first line, biased to let borderline questions pass; the model's `not_found` and deterministic verification are the second and third lines; the threshold is derived from measured distributions.
 - [The number guard rejects correct answers that restate numbers differently, e.g. "uch oy" → "3 oy"] → the prompt says to copy numbers exactly; one feedback retry; the residual false refusals are an accepted, fail-closed bias.
-- [Numbers written as words ("uch oy", "ikki nafar") escape the number guard] → accepted; the citation check still applies and trap questions in evaluation watch for invented dates and amounts.
+- [Numbers written as words escape a digits-only check] → spelled-out numbers must also occur in the cited text ("uch oy" passes when the source says "uch oy"; "yigirma besh" fails when it says "25").
+- [A small model misreads range boundaries, e.g. calls a 100 MW solar plant category II although "100 MVt va undan ortiq" is category I] → an explicit range-reading rule in the prompt, the chat model chosen by evaluation, and boundary questions in the golden set.
 - [lex.uz layout changes] → the committed snapshot keeps builds working; integrity checks turn silent breakage into a clear failure.
 - [Ollama's default context window truncates prompts] → explicit `num_ctx` on every request plus a prompt budget below it.
 - [8 GB VRAM shared by two models] → the default pair needs ≤ 6 GB; `qwen3.5:9b` is documented as partially offloading to CPU; a CPU profile is documented.

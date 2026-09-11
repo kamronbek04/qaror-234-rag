@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>234-son qaror bo'yicha savol-javob</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%230e6b67'/%3E%3Cpath d='M4 11.5V4.5h5.5a2 2 0 010 4H6' stroke='%23fff' stroke-width='1.6' fill='none'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --paper: #eef2ef;
+    --surface: #f8faf8;
+    --ink: #1c2a2e;
+    --muted: #56666a;
+    --rule: #cdd7d3;
+    --accent: #0e6b67;
+    --accent-soft: #d6ebe8;
+    --ochre: #a8701a;
+    --ochre-soft: #f3e6cc;
+    --slate-soft: #dfe5e6;
+    --brick: #a3392a;
+    --brick-soft: #f4dcd6;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #131b1d;
+      --surface: #1a2427;
+      --ink: #e3ebe9;
+      --muted: #9aaaa9;
+      --rule: #2e3c3f;
+      --accent: #5fc2b9;
+      --accent-soft: #1e3b3a;
+      --ochre: #e2ab52;
+      --ochre-soft: #3a2f1c;
+      --slate-soft: #26322f;
+      --brick: #ef8b78;
+      --brick-soft: #3d2320;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 16px/1.5 var(--sans);
+  }
+  .page { max-width: 1180px; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+
+  .topline {
+    display: flex; flex-wrap: wrap; gap: .5rem 1.5rem;
+    justify-content: space-between; align-items: baseline;
+    font-size: .875rem; color: var(--muted);
+    padding-bottom: .75rem; border-bottom: 1px solid var(--rule);
+  }
+  .topline strong { color: var(--ink); font-weight: 600; }
+  .health::before {
+    content: ""; display: inline-block; width: .5rem; height: .5rem; border-radius: 50%;
+    margin-right: .45rem; background: var(--muted); vertical-align: .08em;
+  }
+  .health[data-state="ok"]::before { background: var(--accent); }
+  .health[data-state="bad"]::before { background: var(--brick); }
+
+  .intro { max-width: 46rem; padding: 2.25rem 0 1.25rem; }
+  .intro h1 {
+    font: 400 clamp(1.6rem, 1.2rem + 1.6vw, 2.35rem)/1.2 var(--serif);
+    letter-spacing: -.005em; margin: 0 0 .75rem;
+  }
+  .intro p { margin: 0; color: var(--muted); max-width: 40rem; }
+
+  form { max-width: 46rem; }
+  label.field { display: block; font-weight: 600; margin: 0 0 .4rem; }
+  textarea {
+    width: 100%; min-height: 6.5rem; resize: vertical;
+    padding: .85rem 1rem; border: 1px solid var(--rule); border-radius: 6px;
+    background: var(--surface); color: var(--ink);
+    font: 1.125rem/1.5 var(--serif);
+  }
+  textarea:focus-visible, button:focus-visible, a:focus-visible, input:focus-visible, .cite:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; margin-top: .75rem; }
+  button.primary {
+    font: 600 1rem/1 var(--sans); padding: .8rem 1.4rem; border: 0; border-radius: 6px;
+    background: var(--accent); color: var(--surface); cursor: pointer;
+  }
+  button.primary[disabled] { opacity: .6; cursor: progress; }
+  .hint { font-size: .8125rem; color: var(--muted); }
+  .toggle { font-size: .875rem; color: var(--muted); display: inline-flex; gap: .4rem; align-items: center; }
+
+  .examples { margin: 1.25rem 0 0; max-width: 46rem; }
+  .examples p { margin: 0 0 .5rem; font-size: .875rem; color: var(--muted); }
+  .examples ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .examples button {
+    font: .875rem/1.3 var(--sans); text-align: left; cursor: pointer;
+    padding: .45rem .75rem; border-radius: 999px;
+    border: 1px solid var(--rule); background: transparent; color: var(--ink);
+  }
+  .examples button:hover { border-color: var(--accent); color: var(--accent); }
+
+  .workspace {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 24rem);
+    gap: 2.5rem; margin-top: 2.5rem; padding-top: 1.75rem; border-top: 1px solid var(--rule);
+  }
+  @media (max-width: 900px) { .workspace { grid-template-columns: 1fr; gap: 2rem; } }
+
+  .answer-panel { min-height: 8rem; }
+  .status {
+    display: inline-block; font-size: .8125rem; font-weight: 600;
+    padding: .2rem .6rem; border-radius: 4px; margin-bottom: .9rem;
+  }
+  .status[data-status="answered"] { background: var(--accent-soft); color: var(--accent); }
+  .status[data-status="partial"] { background: var(--ochre-soft); color: var(--ochre); }
+  .status[data-status="not_found"] { background: var(--slate-soft); color: var(--muted); }
+  .status[data-status="error"] { background: var(--brick-soft); color: var(--brick); }
+
+  .answer-text { font: 1.2rem/1.65 var(--serif); max-width: 40em; margin: 0; }
+  .answer-panel[data-status="not_found"] .answer-text { color: var(--muted); font-style: italic; }
+  .answer-panel[data-status="error"] .answer-text { font: 1rem/1.5 var(--sans); color: var(--brick); }
+  .placeholder { color: var(--muted); font-size: .95rem; margin: 0; max-width: 34rem; }
+  .meta { margin: 1rem 0 0; font-size: .8125rem; color: var(--muted); }
+  .reveal { animation: reveal .35s ease-out; }
+  @keyframes reveal { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .reveal { animation: none; } }
+
+  .cite {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 1.35em; height: 1.35em; padding: 0 .3em; margin: 0 0 0 .15em;
+    font: 700 .7em/1 var(--sans); font-variant-numeric: tabular-nums;
+    vertical-align: .35em; border-radius: 3px; text-decoration: none;
+    background: var(--accent-soft); color: var(--accent);
+  }
+  .cite:hover, .cite.is-linked { background: var(--accent); color: var(--surface); }
+
+  aside h2 { font: 600 1rem/1.3 var(--sans); margin: 0 0 .9rem; }
+  .sources { list-style: none; margin: 0; padding: 0; counter-reset: source; }
+  .source {
+    padding: .2rem 0 .2rem 1rem; margin-bottom: 1.25rem;
+    border-left: 3px solid var(--rule); transition: border-color .15s;
+  }
+  .source.is-linked { border-left-color: var(--accent); }
+  .source-head { display: flex; gap: .6rem; align-items: baseline; }
+  .source-head .cite { vertical-align: baseline; flex: none; }
+  .crumb { font-size: .8125rem; color: var(--muted); margin: 0; }
+  .quote {
+    font: .975rem/1.6 var(--serif); margin: .45rem 0 .4rem; white-space: pre-line;
+    display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .source.is-open .quote { -webkit-line-clamp: unset; display: block; }
+  .source-links { display: flex; gap: 1rem; font-size: .8125rem; }
+  .source-links a, .source-links button {
+    color: var(--accent); background: none; border: 0; padding: 0; font: inherit; cursor: pointer;
+    text-decoration: underline; text-underline-offset: .2em;
+  }
+  .empty { color: var(--muted); font-size: .9rem; margin: 0; }
+
+  details.trace { margin-top: 1.75rem; font-size: .8125rem; color: var(--muted); }
+  details.trace summary { cursor: pointer; }
+  .trace table { border-collapse: collapse; margin-top: .6rem; width: 100%; font-variant-numeric: tabular-nums; }
+  .trace th, .trace td { text-align: left; padding: .3rem .6rem .3rem 0; border-bottom: 1px solid var(--rule); }
+  .trace th { font-weight: 600; color: var(--ink); }
+  .table-wrap { overflow-x: auto; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="topline">
+    <span><strong>234-son qaror</strong> bo'yicha savol-javob</span>
+    <span class="health" id="health" data-state="unknown">Holat tekshirilmoqda…</span>
+  </div>
+
+  <header class="intro">
+    <h1>Atrof-muhitga taʼsirni baholash qarori bo'yicha savol bering</h1>
+    <p>Javob faqat Vazirlar Mahkamasining 2026-yil 11-maydagi 234-son qarori matnidan olinadi.
+      Har bir fikr yonida uning manbasi turadi. Hujjatda javob bo'lmasa, tizim buni ochiq aytadi.</p>
+  </header>
+
+  <form id="ask-form" autocomplete="off">
+    <label class="field" for="question">Savolingiz</label>
+    <textarea id="question" name="question" maxlength="1000" required
+      placeholder="Masalan: avtomobil yuvish shoxobchasi qaysi toifaga kiradi?"></textarea>
+    <div class="actions">
+      <button class="primary" id="submit" type="submit">Javob olish</button>
+      <label class="toggle"><input type="checkbox" id="debug"> Qidiruv tafsilotlarini ko'rsatish</label>
+      <span class="hint">Ctrl + Enter bilan ham yuborish mumkin</span>
+    </div>
+  </form>
+
+  <div class="examples">
+    <p>Namuna savollar</p>
+    <ul id="examples"></ul>
+  </div>
+
+  <main class="workspace">
+    <section class="answer-panel" id="answer-panel" aria-live="polite">
+      <p class="placeholder">Savol yuboring. Javob shu yerda, uning manbalari esa yon ustunda ko'rinadi.</p>
+    </section>
+    <aside aria-labelledby="sources-title">
+      <h2 id="sources-title">Manbalar</h2>
+      <ol class="sources" id="sources"><li class="empty">Javob manbalari shu yerda ko'rinadi.</li></ol>
+    </aside>
+  </main>
+</div>
+
+<script>
+(() => {
+  const EXAMPLES = [
+    "Aeroport uchun davlat ekologik ekspertizasi muddati va to'lovi qancha?",
+    "Ekolog-ekspert kim?",
+    "2-ilovaning 6-bandida nima deyilgan?",
+    "Qaror qachon kuchga kiradi?",
+    "Аэропорт учун экспертиза муддати қанча?",
+    "Aeroport ekspertizasi necha BXM va bu dollarda qancha bo'ladi?",
+    "O'zbekistonda QQS stavkasi necha foiz?",
+  ];
+  const STATUS_LABEL = {
+    answered: "Javob hujjatdan topildi",
+    partial: "Qisman javob",
+    not_found: "Hujjatda topilmadi",
+    error: "Servis javob bermadi",
+  };
+  const MARKER = /\[\s*((?:q|a\d+|w)(?:-[a-z0-9]+)*(?:\s*,\s*(?:q|a\d+|w)(?:-[a-z0-9]+)*)*)\s*\]/g;
+
+  const form = document.getElementById("ask-form");
+  const question = document.getElementById("question");
+  const submit = document.getElementById("submit");
+  const debug = document.getElementById("debug");
+  const panel = document.getElementById("answer-panel");
+  const sources = document.getElementById("sources");
+
+  const el = (tag, attrs = {}, ...children) => {
+    const node = document.createElement(tag);
+    for (const [key, value] of Object.entries(attrs)) {
+      if (key === "text") node.textContent = value;
+      else if (key.startsWith("data-")) node.setAttribute(key, value);
+      else node[key] = value;
+    }
+    node.append(...children);
+    return node;
+  };
+
+  const exampleList = document.getElementById("examples");
+  for (const text of EXAMPLES) {
+    const button = el("button", { type: "button", text });
+    button.addEventListener("click", () => { question.value = text; form.requestSubmit(); });
+    exampleList.append(el("li", {}, button));
+  }
+
+  question.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) form.requestSubmit();
+  });
+
+  async function loadHealth() {
+    const target = document.getElementById("health");
+    try {
+      const response = await fetch("/health");
+      const report = await response.json();
+      if (report.status === "ok") {
+        const model = Object.keys(report.models)[0];
+        target.textContent = `Tayyor: ${report.index.chunk_count} ta bo'lak, ${model} modeli`;
+        target.dataset.state = "ok";
+      } else {
+        target.textContent = `Tayyor emas: ${report.problems.join(", ")}`;
+        target.dataset.state = "bad";
+      }
+    } catch {
+      target.textContent = "Servis bilan aloqa yo'q";
+      target.dataset.state = "bad";
+    }
+  }
+
+  function linkPair(id, on) {
+    document.querySelectorAll(`[data-cite="${id}"]`).forEach((node) => node.classList.toggle("is-linked", on));
+  }
+
+  function citeTag(id, number, asLink) {
+    const tag = el(asLink ? "a" : "span", { className: "cite", text: String(number), "data-cite": id });
+    tag.title = id;
+    if (asLink) {
+      tag.href = `#source-${id}`;
+      tag.setAttribute("aria-label", `Manba ${number}: ${id}`);
+      tag.addEventListener("click", (event) => {
+        event.preventDefault();
+        const target = document.getElementById(`source-${id}`);
+        target.classList.add("is-open");
+        target.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
+        target.querySelector("a, button")?.focus({ preventScroll: true });
+      });
+    }
+    for (const type of ["mouseenter", "focus"]) tag.addEventListener(type, () => linkPair(id, true));
+    for (const type of ["mouseleave", "blur"]) tag.addEventListener(type, () => linkPair(id, false));
+    return tag;
+  }
+
+  function renderAnswerText(text, numbers) {
+    const paragraph = el("p", { className: "answer-text" });
+    let last = 0;
+    for (const match of text.matchAll(MARKER)) {
+      paragraph.append(text.slice(last, match.index).replace(/\s+$/, ""));
+      for (const id of match[1].split(",").map((part) => part.trim())) {
+        if (numbers.has(id)) paragraph.append(citeTag(id, numbers.get(id), true));
+      }
+      last = match.index + match[0].length;
+    }
+    paragraph.append(text.slice(last));
+    return paragraph;
+  }
+
+  function renderSources(items, numbers) {
+    sources.replaceChildren();
+    if (!items.length) {
+      sources.append(el("li", { className: "empty", text: "Bu javob uchun manba yo'q." }));
+      return;
+    }
+    for (const item of items) {
+      const expand = el("button", { type: "button", text: "To'liq matn" });
+      const entry = el("li", { className: "source", id: `source-${item.chunk_id}`, "data-cite": item.chunk_id },
+        el("div", { className: "source-head" },
+          citeTag(item.chunk_id, numbers.get(item.chunk_id), false),
+          el("p", { className: "crumb", text: item.breadcrumb })),
+        el("p", { className: "quote", text: item.quote }),
+        el("div", { className: "source-links" },
+          el("a", { href: item.url, target: "_blank", rel: "noopener", text: "lex.uz'da ochish" }),
+          expand));
+      expand.addEventListener("click", () => {
+        const open = entry.classList.toggle("is-open");
+        expand.textContent = open ? "Qisqartirish" : "To'liq matn";
+      });
+      entry.addEventListener("mouseenter", () => linkPair(item.chunk_id, true));
+      entry.addEventListener("mouseleave", () => linkPair(item.chunk_id, false));
+      sources.append(entry);
+    }
+  }
+
+  function renderTrace(trace) {
+    const rows = trace.retrieval.map((r) => el("tr", {},
+      el("td", { text: r.chunk_id }),
+      el("td", { text: r.dense ?? "–" }),
+      el("td", { text: r.lexical ?? "–" }),
+      el("td", { text: r.fused }),
+      el("td", { text: r.pinned ? "aniq havola" : r.expansion ? "ichki havola" : "" })));
+    const gate = trace.gate;
+    return el("details", { className: "trace" },
+      el("summary", { text: `Qidiruv tafsilotlari: eng yuqori o'xshashlik ${gate.top_similarity}, chegara ${gate.threshold}` }),
+      el("div", { className: "table-wrap" },
+        el("table", {},
+          el("thead", {}, el("tr", {}, ...["Bo'lak", "Dense", "BM25", "RRF", "Izoh"].map((h) => el("th", { text: h })))),
+          el("tbody", {}, ...rows))));
+  }
+
+  function showResult(body) {
+    const numbers = new Map(body.sources.map((item, index) => [item.chunk_id, index + 1]));
+    panel.dataset.status = body.status;
+    const seconds = (body.meta.timings_ms.total / 1000).toFixed(1).replace(".", ",");
+    panel.replaceChildren(
+      el("span", { className: "status", text: STATUS_LABEL[body.status], "data-status": body.status }),
+      renderAnswerText(body.answer, numbers),
+      el("p", { className: "meta", text: `${body.meta.model} modeli ${seconds} soniyada javob berdi.` }));
+    if (body.debug) panel.append(renderTrace(body.debug));
+    panel.classList.remove("reveal"); void panel.offsetWidth; panel.classList.add("reveal");
+    renderSources(body.sources, numbers);
+  }
+
+  function showError(message) {
+    panel.dataset.status = "error";
+    panel.replaceChildren(
+      el("span", { className: "status", text: STATUS_LABEL.error, "data-status": "error" }),
+      el("p", { className: "answer-text", text: message }));
+    sources.replaceChildren(el("li", { className: "empty", text: "Manbalar ko'rsatilmaydi." }));
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const text = question.value.trim();
+    if (!text) { question.focus(); return; }
+    submit.disabled = true;
+    submit.textContent = "Javob tayyorlanmoqda…";
+    try {
+      const response = await fetch("/api/v1/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: text, debug: debug.checked }),
+      });
+      const body = await response.json();
+      if (response.ok) showResult(body);
+      else if (body.error) showError(`${body.error.message} (${body.error.code}). Holatni /health sahifasida tekshiring.`);
+      else showError("Savol qabul qilinmadi: u bo'sh bo'lmasligi va 1000 belgidan oshmasligi kerak.");
+    } catch {
+      showError("Servis bilan aloqa uzildi. API ishga tushganini tekshiring.");
+    } finally {
+      submit.disabled = false;
+      submit.textContent = "Javob olish";
+    }
+  });
+
+  loadHealth();
+})();
+</script>
+</body>
+</html>

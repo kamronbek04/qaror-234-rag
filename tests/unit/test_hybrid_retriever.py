@@ -146,3 +146,50 @@ async def test_context_budget_drops_lowest_ranked_chunks(store):
     result = await retriever.retrieve("savol")
 
     assert ids(result) == ["a2-b4"]
+
+
+@pytest.mark.parametrize(
+    ("question", "anchored"),
+    [
+        ("541-son qaror nima boʻldi?", True),
+        ("234-son qaror nima haqida?", False),
+        ("2-ilovaning 6-bandi", False),
+        ("1990-yilgi qonun", False),
+    ],
+)
+async def test_lexical_anchor_needs_a_multi_digit_number_found_in_the_results(
+    store, question, anchored
+):
+    retriever = HybridRetriever(
+        store=store,
+        embedder=FakeEmbedder(),
+        vector_store=FixedVectorStore([("q-b6", 0.3), ("q-b7", 0.2)]),
+        lexical=EmptyLexical(),
+        router=ReferenceRouter([]),
+        top_k=2,
+        candidates=30,
+        expansion_max=0,
+        token_budget=3500,
+    )
+
+    assert (await retriever.retrieve(question)).lexical_anchor is anchored
+
+
+async def test_at_most_two_parts_of_one_item_are_selected(store):
+    parts = [(f"a9-b1-p{n}", 0.9 - n / 100) for n in range(1, 6)]
+    retriever = HybridRetriever(
+        store=store,
+        embedder=FakeEmbedder(),
+        vector_store=FixedVectorStore([*parts, ("q-b6", 0.5)]),
+        lexical=EmptyLexical(),
+        router=ReferenceRouter([]),
+        top_k=4,
+        candidates=30,
+        expansion_max=0,
+        token_budget=10_000,
+    )
+
+    selected = ids(await retriever.retrieve("savol"))
+
+    assert sum(chunk_id.startswith("a9-b1-") for chunk_id in selected) == 2
+    assert "q-b6" in selected

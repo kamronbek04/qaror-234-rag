@@ -16,11 +16,15 @@ When the resolution does not contain the information asked for, the system SHALL
 - **THEN** the answer is exactly "Hujjatda bu haqida ma'lumot yo'q"
 
 ### Requirement: Retrieval confidence gate
-If the retrieval relevance signal is below the configured threshold and no explicit reference matched, the system SHALL return the refusal without invoking the language model.
+If the retrieval relevance signal is below the configured threshold, no explicit reference matched, and the question contains no numeric anchor (a multi-digit number other than 234 that occurs in a retrieved excerpt), the system SHALL return the refusal without invoking the language model.
 
 #### Scenario: Gate short-circuits generation
-- **WHEN** a question's top semantic similarity is below the threshold and it names no appendix or item
+- **WHEN** a question's top semantic similarity is below the threshold, it names no appendix or item and it contains no number found in the excerpts
 - **THEN** the refusal is returned and no generation request is sent to the model
+
+#### Scenario: Numeric anchor passes the gate
+- **WHEN** the question is "541-son qaror nima boʻldi?", whose semantic similarity is below the threshold but whose number 541 occurs in chunk `q-b6`
+- **THEN** the model is invoked with `q-b6` among the excerpts
 
 ### Requirement: Grounded generation
 The language model SHALL receive only the selected excerpts (each labelled with its chunk identifier and breadcrumb) and instructions to answer solely from them, in Uzbek (Latin script), concisely, citing the chunk identifiers that support each statement. Decoding MUST be deterministic (temperature 0, fixed seed). Model output MUST be constrained to a schema with a status (`answered`, `partial`, `not_found`), the answer text and the list of cited chunk identifiers.
@@ -51,8 +55,19 @@ Every number in an answer (working days, BXM amounts, percentages, MW, kV, years
 - **WHEN** the question is "Qaror qachon kuchga kiradi?" and the model answers with a calendar date that does not occur in the cited text
 - **THEN** that answer is not returned; an accepted answer says the resolution enters into force three months after its official publication, citing `q-b7`
 
+### Requirement: Spelled-out numbers and units
+Spelled-out numbers (for example "yigirma besh") and currency words (dollar, soʻm, evro, rubl and their inflected forms) used in the claims of an answer SHALL also appear in the validly cited text; otherwise the system MUST regenerate once with feedback naming them, and return the refusal if the second attempt still fails. Sentences that only state that the document lacks some information are not treated as claims.
+
+#### Scenario: Currency conversion is rejected
+- **WHEN** the model answers "Toʻlov 25 BXM, bu dollarda 25 boʻladi" citing `a1-r2`
+- **THEN** that answer is not returned; the model is asked again with feedback naming "dollarda"
+
+#### Scenario: Number written in words is rejected
+- **WHEN** the model writes "yigirma besh ish kuni" while `a1-r2` says "25 ish kuni"
+- **THEN** that answer is not returned
+
 ### Requirement: Partial coverage
-When a question has several parts and the document covers only some of them, the system SHALL answer the covered parts with citations, state for each uncovered part that the document has no information about it using the sentence `Hujjatda bu haqida ma'lumot yo'q`, and set status `partial` with `found` equal to true.
+When a question has several parts and the document covers only some of them, the system SHALL answer the covered parts with citations, state for each uncovered part that the document has no information about it using the sentence `Hujjatda bu haqida ma'lumot yo'q`, and set status `partial` with `found` equal to true. When the question asks for a currency that the cited text never uses, the result MUST be `partial` even if the model reported `answered`.
 
 #### Scenario: Covered fee, uncovered currency conversion
 - **WHEN** the question is "Aeroport ekspertizasi uchun toʻlov necha BXM va bu AQSh dollarida qancha boʻladi?"

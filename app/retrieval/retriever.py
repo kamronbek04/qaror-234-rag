@@ -1,6 +1,8 @@
 """Hybrid retrieval: dense + BM25 fused with RRF, explicit references, cross-reference expansion."""
 
 import asyncio
+import re
+from collections import Counter
 
 from app.domain.models import Chunk, RetrievalResult, ScoredChunk
 from app.retrieval.chunk_store import ChunkStore
@@ -8,11 +10,29 @@ from app.retrieval.fusion import rank_by_fused_score, reciprocal_rank_fusion
 from app.retrieval.protocols import Embedder, LexicalIndex, VectorStore
 from app.retrieval.references import ReferenceRouter
 from app.text.normalize import canonicalize
+from app.text.numbers import anchor_numbers, extract_numbers
+
+_PART_SUFFIX = re.compile(r"-p\d+$")
+MAX_PARTS_PER_ITEM = 2
 
 
 def estimate_tokens(chunk: Chunk) -> int:
     """Conservative token estimate for Uzbek text (about three characters per token)."""
     return (len(chunk.breadcrumb) + len(chunk.text)) // 3 + 8
+
+
+def _diverse(ranked: list[str], limit: int, taken: list[str]) -> list[str]:
+    """Best-first selection that takes at most two parts of any one long item."""
+    counts = Counter(_PART_SUFFIX.sub("", chunk_id) for chunk_id in taken)
+    chosen: list[str] = []
+    for chunk_id in ranked:
+        if len(chosen) >= limit:
+            break
+        item = _PART_SUFFIX.sub("", chunk_id)
+        if counts[item] < MAX_PARTS_PER_ITEM:
+            counts[item] += 1
+            chosen.append(chunk_id)
+    return chosen
 
 
 class HybridRetriever:
@@ -56,7 +76,7 @@ class HybridRetriever:
             for i in rank_by_fused_score(fused, self._store.order)
             if i in self._store and i not in pinned
         ]
-        selected_ids = pinned + ranked[: max(0, limit - len(pinned))]
+        selected_ids = pinned + _diverse(ranked, max(0, limit - len(pinned)), taken=pinned)
 
         def scored(chunk_id: str, **flags: bool) -> ScoredChunk:
             return ScoredChunk(
@@ -73,11 +93,15 @@ class HybridRetriever:
         for rank, item in enumerate(chunks, start=1):
             item.rank = rank
 
+        anchors = anchor_numbers(text)
         return RetrievalResult(
             query=query,
             chunks=chunks,
             top_similarity=max(dense_scores.values(), default=0.0),
             reference_match=bool(pinned),
+            lexical_anchor=any(
+                anchors & extract_numbers(item.chunk.text) for item in chunks if not item.expansion
+            ),
         )
 
     def _expansion_ids(self, selected_ids: list[str]) -> list[str]:

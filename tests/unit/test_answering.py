@@ -306,3 +306,93 @@ class TestRagService:
 
         assert all(a.status is AnswerStatus.ANSWERED for a in answers)
         assert chat.max_active == 2
+
+
+class TestTermGuard:
+    guard = AnswerGuard()
+
+    def check(self, excerpts, answer, status="answered", citations=("a1-r2",)):
+        draft = LLMAnswer(status=status, answer=answer, citations=list(citations))
+        return self.guard.check(draft, excerpts)
+
+    def test_currency_conversion_is_rejected(self, excerpts):
+        verdict = self.check(excerpts, "Toʻlov 25 BXM. Bu dollarda 25 boʻladi [a1-r2].")
+
+        assert not verdict.ok
+        assert verdict.reason == "unsupported_terms"
+        assert verdict.unsupported_terms == ["dollarda"]
+
+    def test_numbers_spelled_out_are_rejected(self, excerpts):
+        verdict = self.check(excerpts, "Muddat yigirma besh ish kuni [a1-r2].")
+
+        assert verdict.reason == "unsupported_terms"
+        assert verdict.unsupported_terms == ["yigirma", "besh"]
+
+    def test_number_words_present_in_the_source_are_fine(self, excerpts):
+        answer = "Qaror rasmiy eʼlon qilingan kundan eʼtiboran uch oy oʻtgach kuchga kiradi [q-b7]."
+
+        assert self.check(excerpts, answer, citations=["q-b7"]).ok
+
+
+async def test_unsupported_terms_retry_can_end_in_partial_answer(excerpts):
+    chat = FakeChatModel(
+        reply(answer="Toʻlov 25 BXM, dollarda 25 [a1-r2].", citations=["a1-r2"]),
+        reply(status="partial", answer="Toʻlov 25 BXM [a1-r2].", citations=["a1-r2"]),
+    )
+
+    answer = await service(excerpts, chat).ask("Necha BXM va dollarda qancha?")
+
+    assert answer.status is AnswerStatus.PARTIAL
+    assert answer.text.endswith(REFUSAL_TEXT + ".")
+    assert "dollarda" in chat.conversations[1][-1]["content"]
+
+
+async def test_exact_number_in_question_passes_the_gate(excerpts):
+    chat = FakeChatModel(
+        reply(answer="Qaror uch oy oʻtgach kuchga kiradi [q-b7].", citations=["q-b7"])
+    )
+    rag = RagService(
+        retriever=StubRetriever(
+            RetrievalResult(query="", chunks=excerpts, top_similarity=0.3, lexical_anchor=True)
+        ),
+        chat_model=chat, guard=AnswerGuard(), refusal_threshold=0.5,
+        max_prompt_tokens=6000, max_concurrency=2,
+    )  # fmt: skip
+
+    answer = await rag.ask("541-son qaror nima boʻldi?", debug=True)
+
+    assert answer.debug["gate"] == {
+        "passed": True, "top_similarity": 0.3, "threshold": 0.5,
+        "reference_match": False, "lexical_anchor": True,
+    }  # fmt: skip
+    assert len(chat.conversations) == 1
+
+
+def test_disclaimer_sentence_may_name_the_missing_currency_but_claims_may_not(excerpts):
+    guard = AnswerGuard()
+    disclaimer = "Toʻlov 25 BXM [a1-r2]. Dollardagi summasi: Hujjatda bu haqida maʼlumot yoʻq."
+    claim = "Toʻlov 25 BXM, ya'ni 25 dollar [a1-r2]. Hujjatda bu haqida maʼlumot yoʻq."
+
+    ok = guard.check(LLMAnswer(status="partial", answer=disclaimer, citations=[]), excerpts)
+    bad = guard.check(LLMAnswer(status="partial", answer=claim, citations=[]), excerpts)
+
+    assert ok.ok
+    assert bad.unsupported_terms == ["dollar"]
+
+
+def test_question_asking_for_a_currency_the_source_lacks_becomes_partial(excerpts):
+    draft = LLMAnswer(status="answered", answer="Toʻlov 25 BXM [a1-r2].", citations=["a1-r2"])
+
+    verdict = AnswerGuard().check(draft, excerpts, question="Necha BXM va dollarda qancha?")
+
+    assert verdict.status is AnswerStatus.PARTIAL
+    assert (
+        verdict.text == f"Toʻlov 25 BXM [a1-r2]. Savolning qolgan qismi boʻyicha: {REFUSAL_TEXT}."
+    )
+
+
+def test_prompt_explains_how_to_read_ranges():
+    from app.generation.prompts import SYSTEM_PROMPT
+
+    assert "va undan ortiq" in SYSTEM_PROMPT
+    assert "gacha" in SYSTEM_PROMPT
