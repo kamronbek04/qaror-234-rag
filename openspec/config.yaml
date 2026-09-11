@@ -1,0 +1,27 @@
+schema: spec-driven
+
+context: |
+  Product: local, fully offline RAG API that answers questions strictly from
+  Cabinet of Ministers of Uzbekistan resolution No. 234 (11.05.2026) on
+  environmental impact assessment and ecological expertise
+  (source: https://lex.uz/uz/docs/-8193120, Uzbek, Latin script).
+  Tech stack: Python 3.12, FastAPI (async), Ollama (local LLM + embeddings),
+  ChromaDB (embedded, persistent), rank-bm25, pydantic v2 / pydantic-settings,
+  pytest. Docker Compose for one-command startup.
+  Target hardware baseline: laptop with 8 GB VRAM GPU; must still work CPU-only.
+  Hard product rule: answers come only from the resolution text; when the text
+  does not cover a question the API returns exactly
+  "Hujjatda bu haqida ma'lumot yo'q".
+  Conventions: code, identifiers, comments and OpenSpec artifacts in English;
+  user-facing strings, README.md and docs/PRESENTATION.md in Uzbek (Latin).
+  Clean architecture: protocol-based interfaces, dependency injection through a
+  single composition root, no global state.
+
+rules:
+  specs:
+    - Every requirement uses SHALL or MUST and has at least one scenario.
+    - Scenarios reference real content of resolution No. 234 where possible.
+  design:
+    - Record every trade-off with the rejected alternative and the reason.
+  tasks:
+    - Order tasks so each group ends in a runnable, testable state.
