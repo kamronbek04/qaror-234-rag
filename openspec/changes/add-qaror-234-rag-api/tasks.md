@@ -1,4 +1,4 @@
-## 1. Project foundation
+﻿## 1. Project foundation
 
 - [x] 1.1 Create `pyproject.toml` (Python ≥ 3.11; runtime deps: fastapi, uvicorn[standard], pydantic-settings, ollama, chromadb, rank-bm25, beautifulsoup4, lxml, httpx; dev deps: pytest, pytest-asyncio, ruff) with ruff and pytest configuration; verify `pip install -e ".[dev]"` succeeds in a fresh Python 3.12 virtualenv
 - [x] 1.2 Create the package skeleton from design D12 (`app/core`, `app/domain`, `app/text`, `app/ingestion`, `app/retrieval`, `app/generation`, `app/services`, `app/api`, `app/web`, `eval/`, `tests/unit`, `tests/api`, `tests/integration`); verify `python -c "import app"` and `pytest` (empty suite) both succeed
@@ -8,9 +8,9 @@
 
 ## 2. Text utilities
 
-- [ ] 2.1 Implement `app/text/normalize.py` (apostrophe unification, Uzbek Cyrillic → Latin, NFC, whitespace, case folding for lexical form); verify unit tests for the spec scenarios (four apostrophe variants equal; "Экологик экспертиза" → "Ekologik ekspertiza")
-- [ ] 2.2 Implement `app/text/stemmer.py` (tokenizer + ordered inflectional suffix stripping); verify unit tests that "ekspertiza", "ekspertizasi", "ekspertizasidan", "ekspertizaning" share one stem and short words stay intact
-- [ ] 2.3 Implement `app/text/numbers.py` (number extraction with decimal-comma normalization); verify unit tests ("7,5" == "7.5"; "2026-yil 11-may" → {2026, 11}; "110 kV" → {110})
+- [x] 2.1 Implement `app/text/normalize.py` (apostrophe unification, Uzbek Cyrillic → Latin, NFC, whitespace, case folding for lexical form); verify unit tests for the spec scenarios (four apostrophe variants equal; "Экологик экспертиза" → "Ekologik ekspertiza")
+- [x] 2.2 Implement `app/text/stemmer.py` (tokenizer + ordered inflectional suffix stripping); verify unit tests that "ekspertiza", "ekspertizasi", "ekspertizasidan", "ekspertizaning" share one stem and short words stay intact
+- [x] 2.3 Implement `app/text/numbers.py` (number extraction with decimal-comma normalization); verify unit tests ("7,5" == "7.5"; "2026-yil 11-may" → {2026, 11}; "110 kV" → {110})
 
 ## 3. Parsing the resolution
 
