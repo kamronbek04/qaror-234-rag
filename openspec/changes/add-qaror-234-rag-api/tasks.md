@@ -1,10 +1,10 @@
 ## 1. Project foundation
 
-- [ ] 1.1 Create `pyproject.toml` (Python ≥ 3.11; runtime deps: fastapi, uvicorn[standard], pydantic-settings, ollama, chromadb, rank-bm25, beautifulsoup4, lxml, httpx; dev deps: pytest, pytest-asyncio, ruff) with ruff and pytest configuration; verify `pip install -e ".[dev]"` succeeds in a fresh Python 3.12 virtualenv
-- [ ] 1.2 Create the package skeleton from design D12 (`app/core`, `app/domain`, `app/text`, `app/ingestion`, `app/retrieval`, `app/generation`, `app/services`, `app/api`, `app/web`, `eval/`, `tests/unit`, `tests/api`, `tests/integration`); verify `python -c "import app"` and `pytest` (empty suite) both succeed
-- [ ] 1.3 Implement `app/core/config.py` (pydantic-settings, every tunable from spec `local-runtime`, validation) and `.env.example` documenting defaults; verify a unit test that an invalid `REFUSAL_THRESHOLD` fails with an error naming the variable
-- [ ] 1.4 Implement `app/core/errors.py` (domain exceptions with error codes) and `app/core/logging.py` (JSON logs with request id); verify unit tests for error codes and a log record containing `request_id`
-- [ ] 1.5 Add `.gitignore`, commit the lex.uz snapshot to `data/raw/lex_8193120.html` with `data/raw/SOURCE.md` (URL, download date, sha256); verify the recorded sha256 matches the file
+- [x] 1.1 Create `pyproject.toml` (Python ≥ 3.11; runtime deps: fastapi, uvicorn[standard], pydantic-settings, ollama, chromadb, rank-bm25, beautifulsoup4, lxml, httpx; dev deps: pytest, pytest-asyncio, ruff) with ruff and pytest configuration; verify `pip install -e ".[dev]"` succeeds in a fresh Python 3.12 virtualenv
+- [x] 1.2 Create the package skeleton from design D12 (`app/core`, `app/domain`, `app/text`, `app/ingestion`, `app/retrieval`, `app/generation`, `app/services`, `app/api`, `app/web`, `eval/`, `tests/unit`, `tests/api`, `tests/integration`); verify `python -c "import app"` and `pytest` (empty suite) both succeed
+- [x] 1.3 Implement `app/core/config.py` (pydantic-settings, every tunable from spec `local-runtime`, validation) and `.env.example` documenting defaults; verify a unit test that an invalid `REFUSAL_THRESHOLD` fails with an error naming the variable
+- [x] 1.4 Implement `app/core/errors.py` (domain exceptions with error codes) and `app/core/logging.py` (JSON logs with request id); verify unit tests for error codes and a log record containing `request_id`
+- [x] 1.5 Add `.gitignore`, commit the lex.uz snapshot to `data/raw/lex_8193120.html` with `data/raw/SOURCE.md` (URL, download date, sha256); verify the recorded sha256 matches the file
 
 ## 2. Text utilities
 

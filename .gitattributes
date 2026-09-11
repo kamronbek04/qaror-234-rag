@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.sh text eol=lf
+*.png binary
+# Source snapshot is kept byte-for-byte so its recorded SHA-256 stays valid.
+data/raw/*.html -text
