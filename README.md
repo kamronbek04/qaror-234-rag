@@ -5,8 +5,14 @@ Vazirlar Mahkamasining 2026-yil 11-maydagi **234-son qarori** — *"Atrof-muhitg
 - Manba: https://lex.uz/uz/docs/-8193120
 - Stack: Python 3.12 · FastAPI (async) · Ollama · ChromaDB · BM25
 - Hujjatda javob bo'lmasa, API aniq shu javobni qaytaradi: **`Hujjatda bu haqida ma'lumot yo'q`**
+- Modellar: `qwen3.5:4b` (javob) + `bge-m3` (embedding) — tanlov o'lchov asosida ([Baholash](#baholash-evaluation))
 
-> Batafsil reja, arxitektura va dizayn qarorlari: [`docs/PRESENTATION.md`](docs/PRESENTATION.md). Formal spetsifikatsiyalar: [`openspec/`](openspec/).
+![Demo sahifa: javob va uning manbasi](docs/images/demo-answer.png)
+
+> Qo'shimcha hujjatlar:
+> - [`docs/PROJECT_DETAILS.md`](docs/PROJECT_DETAILS.md) — loyiha haqida batafsil texnik ma'lumot (modullar, API, indeks formati, testlar, natijalar)
+> - [`docs/PRESENTATION.md`](docs/PRESENTATION.md) — taqdimot: arxitektura, qarorlar, demo ssenariysi, savol-javoblar
+> - [`openspec/`](openspec/) — formal spetsifikatsiyalar va dizayn
 
 ---
 
@@ -84,7 +90,7 @@ docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d
 docker compose logs -f api
 ```
 
-Birinchi ishga tushishda modellar (~6 GB) yuklab olinadi va indeks quriladi. Bu internet tezligiga qarab 5–15 daqiqa oladi. Keyingi ishga tushishlar bir necha soniyada bo'ladi.
+Birinchi ishga tushishda modellar (~4.6 GB) yuklab olinadi va indeks quriladi (~1 daqiqa). Bu internet tezligiga qarab 5–15 daqiqa oladi. Keyingi ishga tushishlar bir necha soniyada bo'ladi.
 
 Tayyor bo'lgach:
 
@@ -106,7 +112,7 @@ To'xtatish: `docker compose down`. Modellar va indeks volume'larda saqlanib qola
 
 **3. Modellarni yuklab oling**
 ```bash
-ollama pull qwen2.5:7b
+ollama pull qwen3.5:4b
 ollama pull bge-m3
 ```
 
@@ -168,30 +174,33 @@ $body = @{ question = "Aeroport uchun davlat ekologik ekspertizasi muddati va to
 Invoke-RestMethod -Method Post -Uri http://localhost:8000/api/v1/ask -ContentType "application/json; charset=utf-8" -Body $body
 ```
 
-Javob namunasi:
+Javob namunasi (haqiqiy javob, qisqartirilgan):
 ```json
 {
-  "answer": "Aeroportlar atrof-muhitga taʼsir koʻrsatishning I toifasiga (yuqori darajada xavfli) kiradi: davlat ekologik ekspertizasini oʻtkazish muddati — 25 ish kuni, toʻlov miqdori — 25 BXM [a1-r2].",
+  "answer": "Aeroport uchun davlat ekologik ekspertizasini o'tkazish muddati 25 ish kuni, to'lov miqdori 25 BXM [a1-r2].",
   "status": "answered",
   "found": true,
   "sources": [
     {
       "chunk_id": "a1-r2",
       "breadcrumb": "1-ilova › Davlat ekologik ekspertizasidan oʻtkazilishi majburiy boʻlgan … roʻyxati › I toifa › 2-qator",
-      "quote": "Aeroportlar. Ekspertiza muddati: 25 ish kuni. Toʻlov miqdori: 25 BXM.",
+      "quote": "2. Aeroportlar. Toifasi: I toifa (yuqori darajada xavfli). Soha: Transport, elektrotexnika va yoʻl xoʻjaligi. Davlat ekologik ekspertizasini oʻtkazish muddati: 25 ish kuni. Toʻlov miqdori: 25 BXM.",
       "url": "https://lex.uz/uz/docs/-8193120#-8206375",
-      "score": 0.83
+      "score": 0.7706
     }
   ],
   "meta": {
-    "model": "qwen2.5:7b",
-    "request_id": "7f3c…",
-    "timings_ms": { "retrieval": 45, "generation": 2900, "total": 2960 }
+    "model": "qwen3.5:4b",
+    "request_id": "3f9c2a71b0d44e18",
+    "timings_ms": { "retrieval": 62, "generation": 3100, "total": 3170 }
   }
 }
 ```
 
-Hujjatda yo'q savol:
+Hujjatda yo'q savol (LLM chaqirilmaydi, filtrda to'xtaydi):
+
+![Rad javobi](docs/images/demo-refusal.png)
+
 ```json
 {
   "answer": "Hujjatda bu haqida ma'lumot yo'q",
@@ -204,6 +213,8 @@ Hujjatda yo'q savol:
 
 `status` qiymatlari: `answered` (to'liq javob), `partial` (savolning bir qismiga javob bor, qolgani uchun "Hujjatda bu haqida ma'lumot yo'q" deyiladi), `not_found`.
 
+![Qisman javob: BXM bor, dollardagi summa yo'q](docs/images/demo-partial.png)
+
 `"debug": true` yuborilsa, javobga qidiruv nomzodlari (dense, BM25 va RRF ballari) hamda tekshiruv qarorlari qo'shiladi.
 
 ## Konfiguratsiya
@@ -213,11 +224,11 @@ Barcha sozlamalar muhit o'zgaruvchilari yoki `.env` orqali beriladi (namuna: [`.
 | O'zgaruvchi | Standart | Tavsif |
 |---|---|---|
 | `OLLAMA_BASE_URL` | `http://localhost:11434` | Ollama manzili (Docker ichida `http://ollama:11434`) |
-| `LLM_MODEL` | `qwen2.5:7b` | Javob beruvchi model |
+| `LLM_MODEL` | `qwen3.5:4b` | Javob beruvchi model (eval bilan tanlangan) |
 | `EMBED_MODEL` | `bge-m3` | Embedding modeli |
 | `LLM_NUM_CTX` | `8192` | Model kontekst oynasi. Har bir so'rovda aniq beriladi |
 | `LLM_TEMPERATURE` | `0` | Deterministik generatsiya |
-| `LLM_THINK` | *(bo'sh)* | "Thinking" modellari uchun: `false` qilib o'chirish mumkin |
+| `LLM_THINK` | `false` | "Thinking" rejimini o'chiradi (qwen3.5 uchun zarur); bo'sh qiymat parametrni umuman yubormaydi |
 | `LLM_MAX_CONCURRENCY` | `2` | Bir vaqtda ishlaydigan generatsiyalar soni |
 | `LLM_TIMEOUT_S` | `120` | LLM so'rovi uchun vaqt chegarasi |
 | `RETRIEVAL_TOP_K` | `6` | Kontekstga olinadigan bo'laklar soni |
@@ -234,9 +245,11 @@ Barcha sozlamalar muhit o'zgaruvchilari yoki `.env` orqali beriladi (namuna: [`.
 
 | Profil | Chat model | Xotira | Izoh |
 |---|---|---|---|
-| CPU (GPU yo'q) | `qwen3.5:4b` | ~4 GB RAM | Sekinroq, lekin ishlaydi |
-| 8 GB GPU (standart) | `qwen2.5:7b` | ~6 GB VRAM | Embedding modeli bilan birga sig'adi |
-| 12 GB+ GPU | `qwen3.5:9b` | ~8 GB VRAM | Eng yuqori sifat |
+| Standart (8 GB GPU yoki CPU) | `qwen3.5:4b` | ~4 GB | Eval'da eng yaxshi natija. CPU'da ham ishlaydi, faqat sekinroq |
+| 12 GB+ GPU | `qwen3.5:9b` | ~6–7 GB VRAM | Sifati yaqin, lekin sekinroq |
+| TZ tavsiyasi | `qwen2.5:7b` | ~5 GB VRAM | Qo'llab-quvvatlanadi, lekin o'zbek tilida kuchsizroq ([natijalar](#baholash-evaluation)) |
+
+Model almashtirish uchun `.env` da `LLM_MODEL` ni o'zgartirib, `ollama pull <model>` qilinadi. Indeksni qayta qurish kerak emas.
 
 ## Qanday ishlaydi
 
@@ -257,7 +270,10 @@ Har bir bo'lakda uning hujjatdagi yo'li va lex.uz havolasi bor.
 2. Model faqat berilgan bo'laklardan, JSON-sxema bo'yicha va manba ko'rsatib javob beradi.
 3. Kod quyidagilarni tekshiradi:
    - ko'rsatilgan manba haqiqatan kontekstda bormi;
-   - javobdagi har bir raqam (muddat, BXM, foiz) manba matnida bormi.
+   - javobdagi har bir raqam (muddat, BXM, foiz) manba matnida bormi;
+   - so'z bilan yozilgan raqamlar ("yigirma besh") va valyutalar ("dollar") manbada bormi.
+
+   Savolda aniq band yoki hujjatdagi raqam (masalan, "541-son") bo'lsa, u o'xshashlik past bo'lsa ham modelga yetib boradi.
 
 Tekshiruvdan o'tmagan javob foydalanuvchiga chiqmaydi.
 
@@ -265,7 +281,7 @@ Batafsil: [`docs/PRESENTATION.md`](docs/PRESENTATION.md).
 
 ## Baholash (evaluation)
 
-`eval/dataset.jsonl` taxminan 50 ta savoldan iborat. Ular to'rt turga bo'linadi: hujjatdagi savollar, hujjatda yo'q savollar, "tuzoq" savollar (masalan, bekor qilingan 541-son qaror mazmuni yoki kuchga kirishning kalendar sanasi) va qisman javobli savollar.
+`eval/dataset.jsonl` 54 ta savoldan iborat (35 ta hujjatdagi, 10 ta hujjatda yo'q, 5 ta tuzoq, 4 ta qisman javobli). Ular to'rt turga bo'linadi: hujjatdagi savollar, hujjatda yo'q savollar, "tuzoq" savollar (masalan, bekor qilingan 541-son qaror mazmuni yoki kuchga kirishning kalendar sanasi) va qisman javobli savollar.
 
 ```bash
 python -m app.cli eval retrieval                     # hit@k, MRR, chegara tavsiyasi
@@ -276,17 +292,32 @@ python -m app.cli eval e2e --models qwen2.5:7b,qwen3.5:4b,qwen3.5:9b
 
 Hisobotlar `eval/reports/` papkasiga Markdown va JSON ko'rinishida yoziladi.
 
-| Metrika | Maqsad |
+**Natijalar** (RTX 4060 8 GB; hisobotlar: [`retrieval`](eval/reports/20260911T084932-retrieval.md), [`e2e`](eval/reports/20260911T085845-e2e.md)):
+
+| Retrieval | Qiymat |
 |---|---|
-| Hujjatda yo'q savollarni to'g'ri rad etish (recall) | ≥ 0.95 |
-| Hujjatdagi savollarni noto'g'ri rad etish | ≤ 0.10 |
-| Retrieval hit@5 | ≥ 0.90 |
-| Faktlar aniqligi | ≥ 0.85 |
+| hit@1 / **hit@5** / MRR | 0.872 / **0.949** / 0.903 |
+| Strukturaviy vs fixed-size chunking (hit@5) | **0.947** vs 0.816 |
+| Strukturaviy vs fixed-size chunking (hit@1) | **0.895** vs 0.500 |
+| Filtr (chegara 0.50) | hujjatda yo'q savollarning 8/15 qismini to'xtatadi, hujjatdagilardan birortasini ham to'xtatmaydi (0/39) |
+
+| Model | Faktlar aniqligi | Noto'g'ri rad | Rad etish recall | Partial | p50 |
+|---|---|---|---|---|---|
+| `qwen2.5:7b` | 0.800 | 0.114 | 1.000 | 0.25 | 2.9 s |
+| **`qwen3.5:4b`** | **0.943** | **0.000** | 0.933 | **0.75** | 2.9 s |
+| `qwen3.5:9b` | 0.914 | 0.029 | 0.933 | 0.50 | 4.1 s |
+
+| Maqsad | `qwen3.5:4b` |
+|---|---|
+| Faktlar aniqligi ≥ 0.85 | 0.943 ✅ |
+| Noto'g'ri rad ≤ 0.10 | 0.000 ✅ |
+| Retrieval hit@5 ≥ 0.90 | 0.949 ✅ |
+| Rad etish recall ≥ 0.95 | 0.933 ❌ — 15 tadan 1 ta: model rad izohidan keyin aloqasiz fakt qo'shdi ([batafsil](docs/PROJECT_DETAILS.md#11-baholash-natijalari)) |
 
 ## Testlar
 
 ```bash
-pytest               # Ollama talab qilinmaydi (soxta embedder va model ishlatiladi)
+pytest               # 192 ta test, Ollama talab qilinmaydi (soxta embedder va model), ~15 soniya
 pytest -m ollama     # Integratsion testlar: ishlab turgan Ollama kerak
 ruff check . && ruff format --check .
 ```
@@ -316,6 +347,7 @@ docs/           # taqdimot hujjati
 | Belgi | Yechim |
 |---|---|
 | `/health` → `503`, `model_missing` | `ollama pull <model>` (Docker'da: `docker compose run --rm models`) |
+| Birinchi savol ~1 daqiqa oldi | Model GPU'ga birinchi marta yuklanmoqda. Keyingi savollar 2–5 soniya |
 | `/health` → `503`, `index_stale` | `python -m app.cli ingest` yoki `AUTO_INGEST=true` bilan qayta ishga tushirish |
 | Javob juda sekin | GPU override faylidan foydalaning yoki `LLM_MODEL=qwen3.5:4b` qo'ying |
 | `11434` port band | Tizimdagi Ollama va Docker'dagi Ollama bir vaqtda ishlayapti, bittasini to'xtating |

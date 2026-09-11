@@ -7,6 +7,8 @@ still type in Cyrillic. Both sides of the search must see exactly the same canon
 import re
 import unicodedata
 
+# Typographic double quotes stay as they are: an ASCII " inside model output would end a JSON
+# string early (seen live: answers cut off right before a quoted title).
 _APOSTROPHES = str.maketrans(
     {
         "ʻ": "'",  # ʻ modifier letter turned comma (oʻ, gʻ)
@@ -17,11 +19,6 @@ _APOSTROPHES = str.maketrans(
         "`": "'",  # `
         "´": "'",  # ´
         "′": "'",  # ′
-        "“": '"',  # “
-        "”": '"',  # ”
-        "„": '"',  # „
-        "«": '"',  # «
-        "»": '"',  # »
         " ": " ",  # no-break space
     }
 )

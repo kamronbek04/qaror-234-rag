@@ -51,7 +51,7 @@
 |---|---|
 | Python + FastAPI, asinxron | FastAPI, `async` routerlar. Ollama chaqiruvlari `AsyncClient` orqali, sinxron ishlar (ChromaDB, BM25) `asyncio.to_thread` da. Generatsiyalar semafor bilan cheklangan |
 | To'liq lokal, Ollama | LLM ham, embedding ham faqat lokal Ollama orqali. Indeks qurilgach internet kerak emas |
-| Model (Qwen 2.5 / Llama 3 / mos model) | 3 ta nomzod: `qwen2.5:7b`, `qwen3.5:4b`, `qwen3.5:9b`. Tanlov eval natijasiga ko'ra ([8-bo'lim](#8-model-tanlash)) |
+| Model (Qwen 2.5 / Llama 3 / mos model) | 3 ta nomzod solishtirildi. **`qwen3.5:4b`** tanlandi: faktlar aniqligi 0.943, noto'g'ri rad 0 ([8-bo'lim](#8-model-tanlash)) |
 | Vektor baza | ChromaDB (embedded, persistent). `VectorStore` interfeysi orqali boshqasiga almashtirish oson |
 | Gallyutsinatsiyani jilovlash | 4 qatlamli himoya. Rad javobi kod tomonidan aniq qaytariladi ([7-bo'lim](#7-gallyutsinatsiyani-jilovlash)) |
 | "Hujjatda bu haqida ma'lumot yo'q" | Kodda konstanta. `not_found` holatida faqat shu matn qaytadi |
@@ -70,7 +70,7 @@ Arxitekturani tanlashdan oldin hujjat o'lchab chiqildi. Bu raqamlar dizayndagi h
 |---|---|---|
 | Matn hajmi | ~190 000 belgi (~60–90 ming token) | Lokal 4–9B model kontekstiga sig'maydi, shuning uchun RAG shart |
 | Tuzilma | Asosiy qaror (8 band) + 9 ilova; 2–8-ilovalar nizom (bob → band → kichik bandlar) | Tuzilma bo'yicha chunking |
-| Raqamli bandlar | 277 ta; mediana 264 belgi, 90% i 1 070 belgidan qisqa, eng uzuni 5 837 belgi | Asosiy birlik = band. Faqat juda uzunlari bo'linadi |
+| Raqamli bandlar | 270 ta yuqori darajali band (9-ilovadagi iqtibos bandlari o'z o'zgartirish bandi ichida qoladi); mediana 264 belgi, eng uzuni 5 837 belgi | Asosiy birlik = band. Faqat juda uzunlari bo'linadi |
 | Qisqa bandlar | 62 tasi 150 belgidan qisqa | Kontekst yetishi uchun har bir bo'lakka hujjatdagi yo'li qo'shiladi |
 | Atamalar | 41 ta "atama — ta'rif" (2–8-ilovalarning 2-bandlarida) | Har bir atama alohida bo'lak |
 | 1-ilova jadvali | 221 qator: 3 toifa (I yuqori, II o'rtacha, III past xavf), 13–16 soha; muddat (ish kuni) va to'lov (BXM) | Har bir qator to'liq gapga aylantiriladi |
@@ -183,11 +183,13 @@ Foydalanuvchiga ko'rsatiladigan iqtiboslar esa asl yozuvda qoladi.
 
 | Bo'lak turi | Qoida | Soni (taxminan) |
 |---|---|---|
-| Band | 1 band + barcha kichik bandlari | 277 |
+| Band | 1 band + barcha kichik bandlari (uzunlari qismlarga bo'lingan) | 296 |
 | Atama | Har bir "atama — ta'rif" alohida bo'lak, o'z bandiga havola bilan | 41 |
 | Jadval qatori | 1-ilovadagi har bir qator: toifa, xavf darajasi, soha, faoliyat, muddat va to'lov bilan to'liq gap | 221 |
-| Sxema bosqichi | Bosqich raqami, subyekt, tadbir, muddat | ~40 |
-| Izoh, ariza namunasi | Har biri alohida bo'lak | ~15 |
+| Sxema bosqichi | Bosqich raqami, subyekt, tadbir, muddat | 32 |
+| Izoh, ariza namunasi | Har biri alohida bo'lak | 6 + 6 |
+| Ilova sharhi, qaror kirish qismi | Ilova nomi, boblari va ilovalari ro'yxati; qarorning preambulasi | 9 + 1 |
+| **Jami** | | **612** |
 
 **Namunalar:**
 
@@ -331,6 +333,23 @@ Bo'laklar uchun token chegarasi 3 500. Model kontekst oynasi (`num_ctx=8192`) ha
 
 ---
 
+### 7.4 Jonli testlarda ushlangan holatlar
+
+Unit testlardan keyin tizim haqiqiy stekda (Ollama + qwen2.5:7b) sinaldi. Topilgan har bir muammo avval regression test bilan qayd etildi, keyin tuzatildi:
+
+| Holat | Nima bo'ldi | Qanday tuzatildi |
+|---|---|---|
+| "541-son qaror nima bo'ldi?" | Dense o'xshashlik 0.45 edi, filtr noto'g'ri rad etdi | **Leksik langar:** savoldagi hujjat raqami (541) topilgan bo'lakda bo'lsa, savol filtrdan o'tadi |
+| "…necha BXM va dollarda qancha?" | Model "bu dollarda 25 bo'ladi" deb yozdi. "25" manbada bor, shuning uchun raqam tekshiruvi o'tkazib yubordi | **Valyuta tekshiruvi** → qayta so'rov. Savol manbada yo'q valyutani so'rasa → majburan `partial` |
+| Aeroport savoli | "yigirma besh ish kuni" deb so'z bilan yozildi | **So'z bilan yozilgan raqamlar ham manbada bo'lishi shart**. Promptga "faqat raqam bilan yoz" qoidasi qo'shildi |
+| "541-son" konteksti | 6 bo'lakdan 5 tasi bitta uzun bandning (`a9-b1`) qismlari edi | **Xilma-xillik:** bitta banddan ko'pi bilan 2 qism |
+| "100 MVt quyosh stansiyasi" | II toifa deyildi, to'g'risi I ("100 va undan ortiq") | Promptga diapazonni o'qish qoidasi qo'shildi. Model tanlash eval bilan |
+| Qo'shtirnoqli nomlar | Javob "…Vazirlar Mahkamasining" so'zida uzilib qoldi | “ ” → `"` almashtirish JSON satrini yopib qo'ygan. Qo'shtirnoqlar o'z holicha qoldiriladi, indeks qayta quriladi |
+
+Bu jadval ko'rsatadigan asosiy fikr: model xato qiladi, tizim esa buni ushlaydi yoki xavfsiz rad etadi. Chunki kafolatlar promptga emas, kodga tayanadi.
+
+---
+
 ## 8. Model tanlash
 
 ### 8.1 Chat modeli
@@ -343,7 +362,21 @@ Bo'laklar uchun token chegarasi 3 500. Model kontekst oynasi (`num_ctx=8192`) ha
 | `llama3.1:8b` | 4.9 GB | 8 ta rasmiy til | ✅ | O'zbek tilida kuchsizroq |
 | `gemma4` | 12B va undan katta | ko'p tilli | ❌ | 8 GB uchun katta |
 
-**Qaror:** tanlov taxminga emas, **o'lchovga** asoslanadi. `eval e2e --models qwen2.5:7b,qwen3.5:4b,qwen3.5:9b` bir xil 50 ta savolda rad etish aniqligi, faktlar aniqligi va tezlikni solishtiradi. Standart model shu natijaga ko'ra `.env.example` da o'rnatiladi. Model almashtirish faqat konfiguratsiya o'zgarishi, kod o'zgarmaydi.
+**Qaror:** tanlov taxminga emas, **o'lchovga** asoslandi. `eval e2e --models qwen2.5:7b,qwen3.5:4b,qwen3.5:9b` bir xil 54 ta savolda, bir xil retriever va guard bilan uch modelni solishtirdi:
+
+| Model | Faktlar aniqligi | Noto'g'ri rad | Rad etish recall / precision | Partial | p50 / p95 |
+|---|---|---|---|---|---|
+| `qwen2.5:7b` | 0.800 | 0.114 | 1.000 / 0.714 | 0.25 | 2.9 / 5.1 s |
+| **`qwen3.5:4b`** | **0.943** | **0.000** | 0.933 / **0.923** | **0.75** | 2.9 / **4.6 s** |
+| `qwen3.5:9b` | 0.914 | 0.029 | 0.933 / 0.812 | 0.50 | 4.1 / 6.7 s |
+
+**Standart model: `qwen3.5:4b`.** Uning afzalliklari:
+- eng aniq;
+- hujjatdagi birorta savolni noto'g'ri rad etmadi;
+- qisman javoblarni eng yaxshi ajratadi;
+- eng kichik va p95 bo'yicha eng tez.
+
+`qwen2.5:7b` hujjatdagi savollarning 11% ini "ma'lumot yo'q" deb noto'g'ri rad etdi. Model almashtirish faqat konfiguratsiya o'zgarishi (`LLM_MODEL`), kod o'zgarmaydi.
 
 ### 8.2 Embedding modeli
 
@@ -420,21 +453,21 @@ Butun pipeline taxminan 1 500 qator oddiy Python kodi. Frameworklarning umumiy s
 - **I/O-bound** ish (Ollama HTTP chaqiruvlari) `async` / `await` bilan bajariladi va event loop'ni to'smaydi.
 - **Sinxron** ish (ChromaDB so'rovi, BM25) `asyncio.to_thread` da bajariladi.
 - **GPU'ni himoyalash:** bir vaqtda ko'pi bilan `LLM_MAX_CONCURRENCY=2` ta generatsiya ishlaydi. Qolgan so'rovlar navbatda kutadi, `/health` va `/search` esa javob berishda davom etadi.
-- **Kutilayotgan kechikish** (RTX 4060 8 GB, `qwen2.5:7b`): qidiruv ~50 ms, generatsiya ~2–5 s. CPU'da 15–40 s. Aniq raqamlar eval hisobotida.
+- **O'lchangan kechikish** (RTX 4060 8 GB, `qwen3.5:4b`, 54 ta savol): p50 2.9 s, p95 4.6 s. Filtrda to'xtagan savollar ~50–100 ms da qaytadi. Birinchi so'rov modelni GPU'ga yuklash tufayli ~60 s oladi.
 - **Issiq qayta ishga tushish:** indeks fingerprint'i (manba + chunking sozlamasi + embedding modeli) mos kelsa, qayta embedding qilinmaydi va servis soniyalarda tayyor bo'ladi.
 
 ---
 
 ## 12. Sifatni baholash
 
-### 12.1 Oltin savollar to'plami (~50 ta)
+### 12.1 Oltin savollar to'plami (54 ta)
 
 | Tur | Ulushi | Misollar |
 |---|---|---|
-| `in_doc` | ~60% | "Aeroport uchun ekspertiza muddati va to'lovi?" (kutilgan: `a1-r2`, "25 ish kuni", "25 BXM"); "Ekolog-ekspert kim?"; "Davlat ekologik ekspertizasi kimning hisobidan o'tkaziladi?" |
-| `out_of_doc` | ~20% | "QQS stavkasi necha foiz?"; "Ob-havo qanday?" |
-| `trap` | ~12% | "541-son qarorning 5-bandida nima deyilgan edi?"; "Qaror aniq qaysi sanada kuchga kiradi?" |
-| `partial` | ~8% | "Necha BXM va bu dollarda qancha?" |
+| `in_doc` | 35 ta | "Aeroport uchun ekspertiza muddati va to'lovi?" (kutilgan: `a1-r2`, "25 ish kuni", "25 BXM"); "Ekolog-ekspert kim?"; "Davlat ekologik ekspertizasi kimning hisobidan o'tkaziladi?" |
+| `out_of_doc` | 10 ta | "QQS stavkasi necha foiz?"; "Ob-havo qanday?" |
+| `trap` | 5 ta | "541-son qarorning 5-bandida nima deyilgan edi?"; "Qaror aniq qaysi sanada kuchga kiradi?" |
+| `partial` | 4 ta | "Necha BXM va bu dollarda qancha?" |
 
 Kamida 5 ta savol kirill yozuvida yoki nostandart apostrof bilan yozilgan.
 
@@ -452,14 +485,31 @@ Kamida 5 ta savol kirill yozuvida yoki nostandart apostrof bilan yozilgan.
 
 ### 12.3 Natijalar
 
-> Quyidagi jadval `python -m app.cli eval …` ishga tushirilgandan so'ng `eval/reports/` dagi so'nggi hisobotdan to'ldiriladi.
+**Retrieval** (`eval/reports/20260911T084932-retrieval.md`):
 
-| Konfiguratsiya | hit@5 | MRR | Rad etish recall | Noto'g'ri rad | Faktlar | p50 |
-|---|---|---|---|---|---|---|
-| structural + `qwen2.5:7b` | — | — | — | — | — | — |
-| structural + `qwen3.5:4b` | — | — | — | — | — | — |
-| structural + `qwen3.5:9b` | — | — | — | — | — | — |
-| fixed-size (taqqoslash) | — | — | n/a | n/a | n/a | n/a |
+| Ko'rsatkich | Qiymat |
+|---|---|
+| hit@1 / **hit@5** / MRR | 0.872 / **0.949** ✅ / 0.903 |
+| Strukturaviy chunking | hit@1 **0.895**, hit@5 **0.947** |
+| Fixed-size chunking (1000/200) | hit@1 0.500, hit@5 0.816 |
+| O'xshashlik: hujjatdagi / hujjatda yo'q (mediana) | 0.692 / 0.492 |
+
+**Chegara qanday tanlandi.** Faqat filtrning o'zi to'xtatadigan savollar:
+
+| Chegara | Hujjatda yo'q (to'xtatildi) | Hujjatdagi (noto'g'ri to'xtatildi) |
+|---|---|---|
+| 0.45 | 4/15 | 0/39 |
+| **0.50** | **8/15** | **0/39** |
+| 0.55 | 10/15 | 1/39 |
+| 0.60 | 11/15 | 6/39 |
+
+**End-to-end** (`eval/reports/20260911T085845-e2e.md`): [8-bo'limdagi](#8-model-tanlash) jadval.
+
+`qwen3.5:4b` natijalari maqsadlarga nisbatan:
+- faktlar 0.943 ✅;
+- noto'g'ri rad 0.000 ✅;
+- hit@5 0.949 ✅;
+- rad etish recall 0.933 ❌ — 15 tadan 1 ta savol yetmadi: model rad izohidan keyin aloqasiz fakt qo'shdi. Baholash qoidasi ataylab yumshatilmadi.
 
 ---
 
@@ -526,7 +576,7 @@ Kamida 5 ta savol kirill yozuvida yoki nostandart apostrof bilan yozilgan.
 | # | Qadam | Nimani ko'rsatadi |
 |---|---|---|
 | 1 | `GET /health` | Ollama, modellar va indeks tayyor, nusxa sanasi |
-| 2 | Demo sahifa: **"Aeroport uchun ekspertiza muddati va to'lovi qancha?"** | 25 ish kuni, 25 BXM + manbani bosganda lex.uz'da aynan jadval ochiladi |
+| 2 | Demo sahifa: **"Aeroport uchun ekspertiza muddati va to'lovi qancha?"** | 25 ish kuni, 25 BXM. Manbani bosganda lex.uz'da aynan jadval ochiladi ([skrinshot](images/demo-answer.png)) |
 | 3 | **"Ekolog-ekspert kim?"** | Atama bo'lagi: aniq ta'rif |
 | 4 | **"2-ilovaning 6-bandida nima deyilgan?"** | Band havolasi: to'g'ridan-to'g'ri `a2-b6` |
 | 5 | Kirillda: **"Аэропорт учун экспертиза муддати қанча?"** | 2-qadam bilan bir xil javob |
@@ -548,8 +598,8 @@ Huquqiy matnda ma'no chegarasi bu band chegarasi. Embedding-similarity chunker r
 **Gallyutsinatsiya 100% yo'q deb ayta olasizmi?**
 Hech bir tizim 100% kafolat bermaydi. Lekin eng xavfli xatolar kod bilan bloklanadi: o'ylab topilgan manba, noto'g'ri raqam (muddat, BXM, sana) va hujjatda yo'q savolga javob. Qolgan xavf — matnni noto'g'ri talqin qilish. Uni har bir javobdagi iqtibos va havola orqali foydalanuvchi o'zi tekshira oladi. Ko'rsatkichlar eval hisobotida o'lchangan.
 
-**Nega TZ tavsiya qilgan Qwen 2.5 emas?** *(agar eval boshqa modelni tanlasa)*
-Qwen 2.5 rasman 29 tilni qo'llab-quvvatlaydi va o'zbek tili ular orasida yo'q; Qwen 3.5 esa 201 tilni. Tanlov taxmin bilan emas, bir xil 50 ta savoldagi natijalar bilan qilindi. Qwen 2.5 ham to'liq qo'llab-quvvatlanadi va `LLM_MODEL` bilan bir qatorda almashtiriladi.
+**Nega TZ tavsiya qilgan Qwen 2.5 emas?**
+Qwen 2.5 rasman 29 tilni qo'llab-quvvatlaydi va o'zbek tili ular orasida yo'q; Qwen 3.5 esa 201 tilni. Taxmin qilmadik, o'lchadik: bir xil 54 ta savolda `qwen2.5:7b` faktlar bo'yicha 0.800 ga erishdi va hujjatdagi savollarning 11% ini noto'g'ri rad etdi. `qwen3.5:4b` esa 0.943 ga erishdi va birortasini ham noto'g'ri rad etmadi, bundan tashqari u kichikroq. Qwen 2.5 ham to'liq qo'llab-quvvatlanadi va `LLM_MODEL` bilan bir qatorda almashtiriladi.
 
 **Nega ChromaDB? Hujjatlar ko'paysa-chi?**
 Bitta qaror uchun ~1 300 vektor bor. Alohida server keraksiz, ChromaDB embedded rejimda yetarli va TZ ro'yxatida ham bor. Hujjatlar ko'payganda `VectorStore` interfeysi orqali Qdrant yoki pgvector'ga o'tiladi: yangi klass yoziladi, xizmat logikasi o'zgarmaydi.

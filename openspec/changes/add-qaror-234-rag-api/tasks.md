@@ -48,7 +48,7 @@
 - [x] 6.3 Implement `AnswerGuard` (refusal constant, citation filtering, number verification, partial suffix); verify unit tests for every `grounded-answering` scenario that does not need a real model
 - [x] 6.4 Implement `RagService` (retrieve → gate → generate under semaphore → verify → one retry → respond, with debug trace); verify tests with `FakeChatModel`: the gate skips the model, a wrong number triggers retry then refusal, a fabricated citation yields refusal, malformed output twice yields refusal, a correct answer passes
 
-- [x] 6.5 Harden the pipeline against failures found in live testing with qwen2.5:7b (numeric-anchor gate for "541-son", spelled-number and currency guard, forced `partial` for unsupported currencies, two-parts-per-item diversity, range-reading prompt rule); verify with regression unit tests and a re-run of the demo questions
+- [x] 6.5 Harden the pipeline against failures found in live testing with qwen2.5:7b (numeric-anchor gate for "541-son", spelled-number and currency guard, forced `partial` for unsupported currencies, two-parts-per-item diversity, range-reading prompt rule, typographic quotes kept so JSON answers are not cut off); verify with regression unit tests and a re-run of the demo questions
 
 ## 7. HTTP API and demo page
 
@@ -60,22 +60,22 @@
 
 ## 8. Runtime and containers
 
-- [ ] 8.1 Write the `Dockerfile` (python:3.12-slim, non-root, cached dependency layer); verify `docker build .` succeeds
-- [ ] 8.2 Write `docker-compose.yml` (pinned `ollama`, one-shot `models` puller, `api` with auto-ingest and index volume) and `docker-compose.gpu.yml`; verify `docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d` reaches `/health` 200 on this machine and Ollama reports GPU use
-- [ ] 8.3 Verify the native path: run the API from a virtualenv against an Ollama endpoint on `localhost:11434` and get `/health` 200
-- [ ] 8.4 Add a `Makefile` for Unix shells (install, ingest, run, test, eval, up, down) mirroring the raw commands documented in the README; verify `make test` passes
+- [x] 8.1 Write the `Dockerfile` (python:3.12-slim, non-root, cached dependency layer); verify `docker build .` succeeds
+- [x] 8.2 Write `docker-compose.yml` (pinned `ollama`, one-shot `models` puller, `api` with auto-ingest and index volume) and `docker-compose.gpu.yml`; verify `docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d` reaches `/health` 200 on this machine and Ollama reports GPU use
+- [x] 8.3 Verify the native path: run the API from a virtualenv against an Ollama endpoint on `localhost:11434` and get `/health` 200
+- [x] 8.4 Add a `Makefile` for Unix shells (install, ingest, run, test, eval, up, down) mirroring the raw commands documented in the README; verify `make test` passes
 
 ## 9. Evaluation
 
-- [ ] 9.1 Write `eval/dataset.jsonl` (~50 items: in_doc with expected chunks and required facts, out_of_doc, trap, partial; ≥ 25% out_of_doc/trap; ≥ 5 Cyrillic or non-canonical apostrophes) and the dataset validator; verify validation passes against the built index
-- [ ] 9.2 Implement `eval/metrics.py` (hit@k, MRR, refusal precision/recall, fact accuracy, citation accuracy, latency percentiles); verify unit tests with hand-computed examples
-- [ ] 9.3 Implement the retrieval runner with threshold suggestion and chunking comparison, writing Markdown and JSON reports; verify a report is produced for structural and fixed-size strategies
-- [ ] 9.4 Implement the end-to-end runner with model comparison and target marking; verify a report is produced listing failed questions
-- [ ] 9.5 Run both evaluations on this machine for `qwen2.5:7b`, `qwen3.5:4b` and `qwen3.5:9b`; set the default chat model and refusal threshold from the results in `.env.example` and config defaults; verify the chosen configuration meets the targets or the gaps are documented
+- [x] 9.1 Write `eval/dataset.jsonl` (~50 items: in_doc with expected chunks and required facts, out_of_doc, trap, partial; ≥ 25% out_of_doc/trap; ≥ 5 Cyrillic or non-canonical apostrophes) and the dataset validator; verify validation passes against the built index
+- [x] 9.2 Implement `eval/metrics.py` (hit@k, MRR, refusal precision/recall, fact accuracy, citation accuracy, latency percentiles); verify unit tests with hand-computed examples
+- [x] 9.3 Implement the retrieval runner with threshold suggestion and chunking comparison, writing Markdown and JSON reports; verify a report is produced for structural and fixed-size strategies
+- [x] 9.4 Implement the end-to-end runner with model comparison and target marking; verify a report is produced listing failed questions
+- [x] 9.5 Run both evaluations on this machine for `qwen2.5:7b`, `qwen3.5:4b` and `qwen3.5:9b`; set the default chat model and refusal threshold from the results in `.env.example` and config defaults; verify the chosen configuration meets the targets or the gaps are documented
 
 ## 10. Documentation and delivery
 
-- [ ] 10.1 Finalize `README.md` in Uzbek (overview, mermaid architecture diagram, Docker quick start, native setup for Windows/Linux/macOS, configuration table, curl and PowerShell examples, evaluation results, troubleshooting); verify every command by following it on a fresh clone
-- [ ] 10.2 Finalize `docs/PRESENTATION.md` in Uzbek with the measured evaluation numbers and demo script; verify every number matches the latest report in `eval/reports/`
-- [ ] 10.3 Run final quality gates: `ruff check`, `ruff format --check`, full `pytest`, `openspec validate --strict`, and review `git ls-files` so that only project files are tracked; verify all pass
+- [x] 10.1 Finalize `README.md` in Uzbek (overview, mermaid architecture diagram, Docker quick start, native setup for Windows/Linux/macOS, configuration table, curl and PowerShell examples, evaluation results, troubleshooting); verify every command by following it on a fresh clone
+- [x] 10.2 Finalize `docs/PRESENTATION.md` in Uzbek with the measured evaluation numbers and demo script; verify every number matches the latest report in `eval/reports/`
+- [x] 10.3 Run final quality gates: `ruff check`, `ruff format --check`, full `pytest`, `openspec validate --strict`, and review `git ls-files` so that only project files are tracked; verify all pass
 - [ ] 10.4 Push to `github.com/kamronbek04/qaror-234-rag` and verify the repository page renders the README and the latest commit

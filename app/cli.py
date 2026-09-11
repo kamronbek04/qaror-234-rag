@@ -40,7 +40,29 @@ def _parser() -> argparse.ArgumentParser:
         "--force", action="store_true", help="indeks dolzarb bo'lsa ham qayta qurish"
     )
     ingest.set_defaults(handler=_ingest)
+
+    evaluate = commands.add_parser("eval", help="oltin savollar bo'yicha sifatni o'lchash")
+    evaluate.add_argument("mode", choices=["retrieval", "e2e"])
+    evaluate.add_argument(
+        "--compare-chunking", action="store_true", help="structural va fixed-size taqqoslash"
+    )
+    evaluate.add_argument("--models", help="vergul bilan: qwen2.5:7b,qwen3.5:4b")
+    evaluate.set_defaults(handler=_evaluate)
     return parser
+
+
+def _evaluate(settings: Settings, args: argparse.Namespace) -> int:
+    from eval.runner import run_e2e, run_retrieval, write_report  # evaluation-only imports
+
+    if args.mode == "retrieval":
+        report = asyncio.run(run_retrieval(settings, compare_chunking=args.compare_chunking))
+    else:
+        models = [m.strip() for m in args.models.split(",")] if args.models else None
+        report = asyncio.run(run_e2e(settings, models=models))
+    markdown, data = write_report(report)
+    print(markdown.read_text(encoding="utf-8"))
+    print(f"Hisobot: {markdown}\nJSON: {data}")
+    return 0
 
 
 def _ingest(settings: Settings, args: argparse.Namespace) -> int:

@@ -87,3 +87,9 @@ class TestNumbers:
 
     def test_text_without_numbers(self):
         assert extract_numbers("uch oy o'tgach") == set()
+
+
+def test_typographic_double_quotes_are_kept_so_json_strings_stay_intact():
+    assert canonicalize("“Davlat ekologik ekspertizasi markazi”") == (
+        "“Davlat ekologik ekspertizasi markazi”"
+    )

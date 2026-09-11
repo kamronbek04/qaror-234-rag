@@ -67,7 +67,7 @@ class AnswerGuard:
         numbers = sorted(
             extract_numbers(claims) - extract_numbers(source) - {DOCUMENT_NUMBER}, key=float
         )
-        terms = _unsupported_terms(_without_disclaimers(claims), source)
+        terms = _unsupported_terms(strip_disclaimers(claims), source)
         if numbers or terms:
             return _refusal(
                 "unsupported_numbers" if numbers else "unsupported_terms",
@@ -91,7 +91,7 @@ def _source_text(chunk: Chunk) -> str:
     return f"{chunk.breadcrumb}\n{chunk.text}"
 
 
-def _without_disclaimers(claims: str) -> str:
+def strip_disclaimers(claims: str) -> str:
     """Drop sentences that only say the document lacks something (they claim nothing)."""
     refusal = lexical_form(REFUSAL_TEXT)
     sentences = _SENTENCE_END.split(claims)

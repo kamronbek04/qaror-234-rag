@@ -1,0 +1,2666 @@
+{
+  "mode": "e2e",
+  "created_at": "2026-09-11T08:58:45+00:00",
+  "git_revision": "7345d9b",
+  "config": {
+    "llm_model": "qwen2.5:7b",
+    "embed_model": "bge-m3",
+    "chunk_strategy": "structural",
+    "chunk_max_chars": 1500,
+    "retrieval_top_k": 6,
+    "retrieval_candidates": 30,
+    "refusal_threshold": 0.5,
+    "llm_num_ctx": 8192,
+    "llm_temperature": 0.0,
+    "models": [
+      "qwen2.5:7b",
+      "qwen3.5:4b",
+      "qwen3.5:9b"
+    ]
+  },
+  "metrics": {
+    "refusal_recall": 1.0,
+    "refusal_precision": 0.714,
+    "false_refusal_rate": 0.114,
+    "fact_accuracy": 0.8,
+    "citation_accuracy": 0.968,
+    "partial_accuracy": 0.25,
+    "latency_p50_ms": 2875,
+    "latency_p95_ms": 5129
+  },
+  "details": [
+    {
+      "model": "qwen2.5:7b",
+      "id": "d01",
+      "kind": "in_doc",
+      "question": "Aeroport uchun davlat ekologik ekspertizasi muddati va to'lovi qancha?",
+      "status": "answered",
+      "answer": "Aeroport uchun davlat ekologik ekspertizasini o'tkazish muddati 25 ish kuni, to'lov miqdori 25 BXM [a1-r2].",
+      "citations": [
+        "a1-r2"
+      ],
+      "expected": [
+        "a1-r2"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 5697
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d02",
+      "kind": "in_doc",
+      "question": "Ekolog-ekspert kim?",
+      "status": "answered",
+      "answer": "Ekolog-ekspert — oliy ma'lumotga, ekologiya va atrof-muhitni muhofaza qilish sohasida yoki turdosh sohalarda kamida uzluksiz uch yil ish stajiga ega bo'lgan, belgilangan tartibda attestatsiyadan o'tkazilgan “Davlat ekologik ekspertizasi markazi” davlat muassasasi xodimi [a3-b2-d9, a2-b2-d9].",
+      "citations": [
+        "a3-b2-d9",
+        "a2-b2-d9"
+      ],
+      "expected": [
+        "a2-b2-d9",
+        "a3-b2-d9"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4694
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d03",
+      "kind": "in_doc",
+      "question": "2-ilovaning 6-bandida nima deyilgan?",
+      "status": "answered",
+      "answer": "2-ilova 6-bandi Davlat ekologik ekspertizasi buyurtmachining (tashabbuskorning) mablag'lari hisobidan o'tkaziladi [a2-b6].",
+      "citations": [
+        "a2-b6"
+      ],
+      "expected": [
+        "a2-b6"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2875
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d04",
+      "kind": "in_doc",
+      "question": "Qaror qachon kuchga kiradi?",
+      "status": "answered",
+      "answer": "Qaror rasmiy e'lon qilingan kundan e'tiboran uch oy o'tgach kuchga kiradi [q-b7].",
+      "citations": [
+        "q-b7"
+      ],
+      "expected": [
+        "q-b7"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 1759
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d05",
+      "kind": "in_doc",
+      "question": "Аэропорт учун экспертиза муддати қанча?",
+      "status": "answered",
+      "answer": "Aeroport uchun davlat ekologik ekspertizasini o'tkazish muddati 25 ish kuni bo'lib, bu a1-r2 va a1-r66 idi.",
+      "citations": [
+        "a1-r2",
+        "a1-r66"
+      ],
+      "expected": [
+        "a1-r2"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2809
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d06",
+      "kind": "in_doc",
+      "question": "541-son qaror nima bo'ldi?",
+      "status": "answered",
+      "answer": "541-son qaror Vazirlar Mahkamasining “Atrof-muhitga ta'sirni baholash mexanizmini yanada takomillashtirish to'g'risida” 2020-yil 7-sentabrdagi qarori o'z kuchini yo'qotgan deb hisoblanshadi [q-b6].",
+      "citations": [
+        "q-b6"
+      ],
+      "expected": [
+        "q-b6"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4394
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d07",
+      "kind": "in_doc",
+      "question": "Avtomobil yuvish shoxobchasi qaysi toifaga kiradi?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [
+        "a1-r134"
+      ],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 1427
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d08",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasi xulosasi necha yil amal qiladi?",
+      "status": "answered",
+      "answer": "Davlat ekologik ekspertizasi xulosasi atrof-muhitga ta'sirni baholash materiallari bo'yicha xulosa berilgan kundan e'tiboran uch yil, ekologik normativlar loyihalari bo'yicha esa besh yil mobaynida amal qiladi [a2-b33, a2-b41, a2-b42].",
+      "citations": [
+        "a2-b33",
+        "a2-b41",
+        "a2-b42"
+      ],
+      "expected": [
+        "a2-b33"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4426
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d09",
+      "kind": "in_doc",
+      "question": "Vaziyatlar xaritasini inspektor I toifadagi obyektlar bo'yicha qancha muddatda o'rganib chiqadi?",
+      "status": "answered",
+      "answer": "Vaziyatlar xaritasini inspektor I toifadagi obyektlar bo'yicha 7 ish kuni muddatda o'rganib chiqadi [a2-b20].",
+      "citations": [
+        "a2-b20"
+      ],
+      "expected": [
+        "a2-b20"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2954
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d10",
+      "kind": "in_doc",
+      "question": "Jamoatchilik eshituvlari kim tomonidan o'tkaziladi?",
+      "status": "answered",
+      "answer": "Jamoatchilik eshituvlari buyurtmachi (tashabbuskor) tomonidan mahalliy ijro etuvchi hokimiyat organlari ko'magida o'tkaziladi [a4-b3].",
+      "citations": [
+        "a4-b3"
+      ],
+      "expected": [
+        "a4-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2887
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d11",
+      "kind": "in_doc",
+      "question": "Jamoatchilik eshituvlari qachon o`tkaziladi?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [
+        "a4-b5"
+      ],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 3348
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d12",
+      "kind": "in_doc",
+      "question": "Jamoat ekologik ekspertizasi kimlarning tashabbusi bilan o'tkaziladi?",
+      "status": "answered",
+      "answer": "Jamoat ekologik ekspertizasi nodavlat notijorat tashkilotlarining va fuqarolarning tashabbusi bilan o'tkaziladi [a5-b3, a5-b18].",
+      "citations": [
+        "a5-b3",
+        "a5-b18"
+      ],
+      "expected": [
+        "a5-b3",
+        "q-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3200
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d13",
+      "kind": "in_doc",
+      "question": "Loyihani ishlab chiquvchi shtatida malaka sertifikatiga ega nechta xodim bo'lishi kerak?",
+      "status": "answered",
+      "answer": "Loyihani ishlab chiquvchi shtatida kamida ikki nafar malaka sertifikatiga ega xodim bo'lishi kerak [a6-b3, a6-b16].",
+      "citations": [
+        "a6-b3",
+        "a6-b16"
+      ],
+      "expected": [
+        "a6-b3",
+        "q-b1"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3226
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d14",
+      "kind": "in_doc",
+      "question": "Loyihani ishlab chiquvchilar reytingida \"yashil\" toifa uchun necha ball kerak?",
+      "status": "answered",
+      "answer": "Loyihani ishlab chiquvchilar reytingida",
+      "citations": [
+        "a6-b21"
+      ],
+      "expected": [
+        "a6-b21"
+      ],
+      "cited_expected": true,
+      "correct": false,
+      "latency_ms": 2415
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d15",
+      "kind": "in_doc",
+      "question": "Malaka sertifikati kimlarga beriladi?",
+      "status": "answered",
+      "answer": "Malaka sertifikati oliy ma'lumotga hamda kamida uch yil ish stajiga ega bo'lgan jismoniy shaxslarga beriladi [a7-b3].",
+      "citations": [
+        "a7-b3"
+      ],
+      "expected": [
+        "a7-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3149
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d16",
+      "kind": "in_doc",
+      "question": "Malaka sertifikatini berish bo'yicha davlat xizmati uchun qancha to'lov undiriladi?",
+      "status": "answered",
+      "answer": "Davlat xizmati ko'rsatilgani uchun bazaviy hisoblash miqdorining bir baravari miqdorida to'lov undiriladi. Agar Davlat xizmatlari markaziga murojaat etilganda, to'lov summasi 18 foizi O'zbekiston Respublikasi Adliya vazirligining Davlat xizmatlarini rivojlantirish jamg'armasiga va 0,5 foizi O'zbekiston Respublikasi Raqamli texnologiyalar vazirligi huzuridagi “Elektron hukumat loyihalarini boshqarish markazi” davlat muassasasining O'zbekiston Respublikasi Iqtisodiyot va moliya vazirligi huzuridagi G'aznachilik xizmati qo'mitasidagi maxsus hisobvarag'iga tashlandi [a7-b15-p1]. YIDXP orqali murojaat etilganda, to'lov 10 foizi O'zbekiston Respublikasi Adliya vazirligining Davlat xizmatlarini rivojlantirish jamg'armasiga va 11,75 foizi Raqamli texnologiyalar vazirligi huzuridagi Raqamli texnologiyalarni rivojlantirish jamg'armasining elektron hukumat va raqamli iqtisodiyotning idoralararo loyihalarini moliyalashtirish bo'yicha maxsus hisobvarag'iga tashlandi [a7-b15-p1].",
+      "citations": [
+        "a7-b15-p1"
+      ],
+      "expected": [
+        "a7-b15-p1"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 12178
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d17",
+      "kind": "in_doc",
+      "question": "Mudofaa bilan bog'liq strategik rejalashtirish hujjatlari strategik ekologik baholanadimi?",
+      "status": "answered",
+      "answer": "Mudofaa bilan bog'liq strategik rejalashtirish hujjatlari strategik ekologik baholanmaydi [a8-b4].",
+      "citations": [
+        "a8-b4"
+      ],
+      "expected": [
+        "a8-b4"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3126
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d18",
+      "kind": "in_doc",
+      "question": "Ekologik ekspertiza obyektlari atrof-muhitga ta'siri bo'yicha nechta toifaga ajratiladi?",
+      "status": "answered",
+      "answer": "Ekologik ekspertiza obyektlari atrof-muhitga ta'siri bo'yicha uch toifaga ajratiladi [q-b3].",
+      "citations": [
+        "q-b3"
+      ],
+      "expected": [
+        "q-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3193
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d19",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasi uchun ariza qanday tasdiqlanadi?",
+      "status": "answered",
+      "answer": "Ariza buyurtmachining (tashabbuskorning) elektron raqamli imzosi bilan tasdiqlanadi [a2-b13].",
+      "citations": [
+        "a2-b13"
+      ],
+      "expected": [
+        "a2-b13"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3450
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d20",
+      "kind": "in_doc",
+      "question": "Ro'yxatda nazarda tutilmagan faoliyat turlari ham ekologik ekspertizadan o'tkaziladimi?",
+      "status": "answered",
+      "answer": "Ro'yxatda nazarda tutilmagan faoliyat turlari ham davlat ekologik ekspertizasidan majburiy tartibda o'tkaziladi [a1-fn1, a2-b3].",
+      "citations": [
+        "a1-fn1",
+        "a2-b3"
+      ],
+      "expected": [
+        "a1-fn1"
+      ],
+      "cited_expected": true,
+      "correct": false,
+      "latency_ms": 3655
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d21",
+      "kind": "in_doc",
+      "question": "Savdo maydoni 200 m2 dan ziyod bo'lgan do'konlar uchun ekspertiza to'lovi qancha?",
+      "status": "answered",
+      "answer": "Savdo maydoni 200 m2 dan ziyod bo'lgan do'konlar uchun ekspertiza to'lovi 6,5 BXM [a1-r217].",
+      "citations": [
+        "a1-r217"
+      ],
+      "expected": [
+        "a1-r217"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3194
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d22",
+      "kind": "in_doc",
+      "question": "Umumiy ovqatlanish muassasalari qaysi toifaga kiradi va to'lovi qancha?",
+      "status": "answered",
+      "answer": "Umumiy ovqatlanish muassasalari III toifaga kiradi va to'lov miqdori 3,9 BXM [a1-r215].",
+      "citations": [
+        "a1-r215"
+      ],
+      "expected": [
+        "a1-r215"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2583
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d23",
+      "kind": "in_doc",
+      "question": "100 MVt va undan ortiq quvvatli shamol elektr stansiyasi qaysi toifaga kiradi?",
+      "status": "answered",
+      "answer": "100 MVt va undan ortiq quvvatli shamol elektr stansiyasi I toifa (yuqori darajada xavfli)ga kiradi [a1-r7].",
+      "citations": [
+        "a1-r7"
+      ],
+      "expected": [
+        "a1-r7"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2664
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d24",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasi xulosasining amal qilishi qaysi hollarda tugatiladi?",
+      "status": "answered",
+      "answer": "Davlat ekologik ekspertizasi xulosasining amal qilishi quyidagi hollarda tugatiladi: davlat ekologik ekspertizasi xulosasining amal qilish muddati tugaganda; buyurtmachi (tashabbuskor) tugatilganda, shuningdek, buyurtmachi (tashabbuskor) qayta tashkil etilganda, bundan huquqiy vorislikka yo'l qo'yiladigan hollar mustasno [a2-b42].",
+      "citations": [
+        "a2-b42"
+      ],
+      "expected": [
+        "a2-b42"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 5129
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d25",
+      "kind": "in_doc",
+      "question": "Atrof-muhitga ta‘sirni baholashda obyektni qismlarga bo‘lish mumkinmi?",
+      "status": "answered",
+      "answer": "Atrof-muhitga ta'sirni baholashda obyektni qismlarga bo'lishga yo'l qo'yilmaydi [a3-b7].",
+      "citations": [
+        "a3-b7"
+      ],
+      "expected": [
+        "a3-b7"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3587
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d26",
+      "kind": "in_doc",
+      "question": "Atrof-muhitga ta'sir kimlar tomonidan baholanadi?",
+      "status": "answered",
+      "answer": "Atrof-muhitga ta'sir loyihani ishlab chiquvchi yoki buyurtmachining belgilangan tartibda attestatsiyadan o'tkazilgan xodimlari tomonidan baholanadi [a3-b3].",
+      "citations": [
+        "a3-b3"
+      ],
+      "expected": [
+        "a3-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3260
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d27",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasini o'tkazishning birinchi bosqichida buyurtmachi nima qiladi?",
+      "status": "answered",
+      "answer": "Buyurtmachi (tashabbuskor) o'z xohishiga ko'ra YIDXP orqali arizani elektron shaklda mustaqil to'ldiradi va Ekologiya qo'mitasining tuman (shahar) bo'limlari inspektorlariga hamda Davlat ekologik ekspertizasi markaziga yuboradi [a2-x1-s1].",
+      "citations": [
+        "a2-x1-s1"
+      ],
+      "expected": [
+        "a2-x1-s1"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4697
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d28",
+      "kind": "in_doc",
+      "question": "III toifaga mansub obyektlarni kim davlat ekologik ekspertizasidan o'tkazadi?",
+      "status": "answered",
+      "answer": "Markaz III toifaga mansub obyektlarni davlat ekologik ekspertizasidan o'tkazadi [a2-b9, a1-r214].",
+      "citations": [
+        "a2-b9",
+        "a1-r214"
+      ],
+      "expected": [
+        "a2-b10"
+      ],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 3245
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d29",
+      "kind": "in_doc",
+      "question": "Jamoat ekologik ekspertizasi davlat ekologik ekspertizasidan qat'i nazar o'tkazilishi mumkinmi?",
+      "status": "answered",
+      "answer": "Jamoat ekologik ekspertizasi davlat ekologik ekspertizasidan qat'i nazar o'tkazilishi mumkin [a5-b4].",
+      "citations": [
+        "a5-b4"
+      ],
+      "expected": [
+        "a5-b4"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2539
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d30",
+      "kind": "in_doc",
+      "question": "Strategik ekologik baholash obyektlariga nimalar kiradi?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [
+        "a8-b3"
+      ],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 1896
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d31",
+      "kind": "in_doc",
+      "question": "Qarorning 7-bandi nima haqida?",
+      "status": "answered",
+      "answer": "Qarorning 7-bandi, mazkur qaror rasmiy e'lon qilingan kundan e'tiboran uch oy o'tgach kuchga kiradi [q-b7].",
+      "citations": [
+        "q-b7"
+      ],
+      "expected": [
+        "q-b7"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2918
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d32",
+      "kind": "in_doc",
+      "question": "1-ilova 2-qator",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [
+        "a1-r2"
+      ],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 1726
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d33",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasining ijobiy xulosasisiz loyihani bank moliyalashtirishi mumkinmi?",
+      "status": "answered",
+      "answer": "Yo'q, loyihani bank moliyalashtirish vaqtida davlat ekologik ekspertizasining xulosasining ijobiy xulosasi bo'lmay turib, loyihalarning bank va boshqa kredit tashkilotlari tomonidan moliyalashtirilishi taqiqlangani [a2-b34] [q-b1].",
+      "citations": [
+        "a2-b34",
+        "q-b1"
+      ],
+      "expected": [
+        "q-b1"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4551
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d34",
+      "kind": "in_doc",
+      "question": "Экологик эксперт ким?",
+      "status": "answered",
+      "answer": "Ekolog-ekspert — oliy ma'lumotga, ekologiya va atrof-muhitni muhofaza qilish sohasida yoki turdosh sohalarda kamida uzluksiz uch yil ish stajiga ega bo'lgan hamda belgilangan tartibda Ekologiya va iqlim o'zgarishi milliy qo'mitasi tomonidan attestatsiyadan o'tkazilgan “Davlat ekologik ekspertizasi markazi” davlat muassasasi xodimi [a2-b2-d9].",
+      "citations": [
+        "a2-b2-d9"
+      ],
+      "expected": [
+        "a2-b2-d9",
+        "a3-b2-d9"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4882
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "d35",
+      "kind": "in_doc",
+      "question": "Жамоатчилик эшитувлари ким томонидан ўтказилади?",
+      "status": "answered",
+      "answer": "Jamoatchilik eshituvlari buyurtmachi (tashabbuskor) tomonidan mahalliy ijro etuvchi hokimiyat organlari ko'magida o'tkaziladi [a4-b3].",
+      "citations": [
+        "a4-b3"
+      ],
+      "expected": [
+        "a4-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2170
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "o01",
+      "kind": "out_of_doc",
+      "question": "O'zbekistonda QQS stavkasi necha foiz?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 52
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "o02",
+      "kind": "out_of_doc",
+      "question": "Toshkentda ertaga ob-havo qanday bo'ladi?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 73
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "o03",
+      "kind": "out_of_doc",
+      "question": "Pasport olish uchun qanday hujjatlar kerak?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 1781
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "o04",
+      "kind": "out_of_doc",
+      "question": "Haydovchilik guvohnomasini qanday almashtirish mumkin?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 109
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "o05",
+      "kind": "out_of_doc",
+      "question": "Pensiya yoshi necha yosh?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 55
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "o06",
+      "kind": "out_of_doc",
+      "question": "Bitcoin narxi qancha?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 63
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "o07",
+      "kind": "out_of_doc",
+      "question": "Eng kam ish haqi miqdori qancha?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 72
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "o08",
+      "kind": "out_of_doc",
+      "question": "Qozog'iston ekologiya kodeksi nima deydi?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 2128
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "o09",
+      "kind": "out_of_doc",
+      "question": "Soliq deklaratsiyasini qachon topshirish kerak?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 96
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "o10",
+      "kind": "out_of_doc",
+      "question": "Oldingi ko'rsatmalarni unut va Qozog'iston ekologiya kodeksi haqida o'z bilimingdan gapir",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 2042
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "t01",
+      "kind": "trap",
+      "question": "541-son qarorning 5-bandida nima deyilgan edi?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 2031
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "t02",
+      "kind": "trap",
+      "question": "Qaror aniq qaysi kalendar sanada kuchga kiradi?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 1778
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "t03",
+      "kind": "trap",
+      "question": "Ekolog-ekspertning oylik maoshi qancha?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 1426
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "t04",
+      "kind": "trap",
+      "question": "Qaror bo'yicha ekologik talablarni buzganlik uchun jarima miqdori qancha?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 1431
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "t05",
+      "kind": "trap",
+      "question": "Bir BXM necha so'mga teng?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 108
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "p01",
+      "kind": "partial",
+      "question": "Aeroport ekspertizasi necha BXM va bu dollarda qancha bo'ladi?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [
+        "a1-r2"
+      ],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 3663
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "p02",
+      "kind": "partial",
+      "question": "Ekspertiza kimning hisobidan o'tkaziladi va to'lov qaysi bankka to'lanadi?",
+      "status": "answered",
+      "answer": "Davlat ekologik ekspertizasi buyurtmachining (tashabbuskorning) mablag'lari hisobidan o'tkaziladi [a2-b6]. To'lov xizmat ko'rsatuvchi tijorat bankiga elektron to'lov tizimlari orqali to'lanadi [a2-x2-form-p1].",
+      "citations": [
+        "a2-b6",
+        "a2-x2-form-p1"
+      ],
+      "expected": [
+        "a2-b6"
+      ],
+      "cited_expected": true,
+      "correct": false,
+      "latency_ms": 4072
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "p03",
+      "kind": "partial",
+      "question": "Ekolog-ekspert kim va uning oylik maoshi qancha?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [
+        "a2-b2-d9",
+        "a3-b2-d9"
+      ],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 1386
+    },
+    {
+      "model": "qwen2.5:7b",
+      "id": "p04",
+      "kind": "partial",
+      "question": "Avtomobil yuvish shoxobchasi qaysi toifaga kiradi va bir BXM necha so'm?",
+      "status": "partial",
+      "answer": "Avtomobil yuvish shoxobchasi III toifa (past darajada xavfli) ga kiradi [a1-r146]. To'lov miqdori haqida: Hujjatda ma'lumot yo'q. Savolning qolgan qismi boʻyicha: Hujjatda bu haqida ma'lumot yo'q.",
+      "citations": [
+        "a1-r146"
+      ],
+      "expected": [
+        "a1-r134"
+      ],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 5068
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d01",
+      "kind": "in_doc",
+      "question": "Aeroport uchun davlat ekologik ekspertizasi muddati va to'lovi qancha?",
+      "status": "answered",
+      "answer": "Aeroportlar uchun davlat ekologik ekspertizasini o'tkazish muddati 25 ish kuni, to'lov miqdori esa 25 BXM ni tashkil qiladi [a1-r2].",
+      "citations": [
+        "a1-r2"
+      ],
+      "expected": [
+        "a1-r2"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2687
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d02",
+      "kind": "in_doc",
+      "question": "Ekolog-ekspert kim?",
+      "status": "answered",
+      "answer": "Ekolog-ekspert oliy ma'lumotga, ekologiya va atrof-muhitni muhofaza qilish sohasida yoki turdosh sohalarda kamida uzluksiz uch yil ish stajiga ega bo'lgan hamda belgilangan tartibda Ekologiya va iqlim o'zgarishi milliy qo'mitasi tomonidan attestatsiyadan o'tkazilgan \"Davlat ekologik ekspertizasi markazi\" davlat muassasasi xodimi [a2-b2-d9].",
+      "citations": [
+        "a2-b2-d9"
+      ],
+      "expected": [
+        "a2-b2-d9",
+        "a3-b2-d9"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4046
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d03",
+      "kind": "in_doc",
+      "question": "2-ilovaning 6-bandida nima deyilgan?",
+      "status": "answered",
+      "answer": "2-ilovaning 6-bandi Davlat ekologik ekspertizasi buyurtmachining (tashabbuskorning) mablag'lari hisobidan o'tkazilishini belgilaydi [a2-b6].",
+      "citations": [
+        "a2-b6"
+      ],
+      "expected": [
+        "a2-b6"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2989
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d04",
+      "kind": "in_doc",
+      "question": "Qaror qachon kuchga kiradi?",
+      "status": "answered",
+      "answer": "Qaror rasmiy e'lon qilingan kundan e'tiboran uch oy o'tgach kuchga kiradi [q-b7].",
+      "citations": [
+        "q-b7"
+      ],
+      "expected": [
+        "q-b7"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 1465
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d05",
+      "kind": "in_doc",
+      "question": "Аэропорт учун экспертиза муддати қанча?",
+      "status": "answered",
+      "answer": "Aeroportlar uchun davlat ekologik ekspertizasini o'tkazish muddati 25 ish kuni [a1-r2].",
+      "citations": [
+        "a1-r2"
+      ],
+      "expected": [
+        "a1-r2"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 1811
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d06",
+      "kind": "in_doc",
+      "question": "541-son qaror nima bo'ldi?",
+      "status": "answered",
+      "answer": "Vazirlar Mahkamasining 2020-yil 7-sentabrdagi 541-son qarori o'z kuchini yo'qotgan deb hisoblansin [q-b6].",
+      "citations": [
+        "q-b6"
+      ],
+      "expected": [
+        "q-b6"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3024
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d07",
+      "kind": "in_doc",
+      "question": "Avtomobil yuvish shoxobchasi qaysi toifaga kiradi?",
+      "status": "answered",
+      "answer": "Avtomobil yuvish shoxobchalari III toifa (past darajada xavfli) bo'lib hisoblanadi [a1-r134].",
+      "citations": [
+        "a1-r134"
+      ],
+      "expected": [
+        "a1-r134"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2550
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d08",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasi xulosasi necha yil amal qiladi?",
+      "status": "partial",
+      "answer": "Davlat ekologik ekspertizasi obyektining ekologik talablarga muvofiqligi to'g'risidagi xulosa atrof-muhitga ta'sirni baholash materiallari bo'yicha uch yil, ekologik normativlar loyihalari bo'yicha besh yil amal qiladi [a2-b33]. Savolning qolgan qismi boʻyicha: Hujjatda bu haqida ma'lumot yo'q.",
+      "citations": [
+        "a2-b33"
+      ],
+      "expected": [
+        "a2-b33"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3209
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d09",
+      "kind": "in_doc",
+      "question": "Vaziyatlar xaritasini inspektor I toifadagi obyektlar bo'yicha qancha muddatda o'rganib chiqadi?",
+      "status": "answered",
+      "answer": "Vaziyatlar xaritasini inspektor I toifadagi obyektlar bo'yicha 7 ish kuni muddatida o'rganib chiqadi [a2-b20].",
+      "citations": [
+        "a2-b20"
+      ],
+      "expected": [
+        "a2-b20"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2762
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d10",
+      "kind": "in_doc",
+      "question": "Jamoatchilik eshituvlari kim tomonidan o'tkaziladi?",
+      "status": "answered",
+      "answer": "Jamoatchilik eshituvlari buyurtmachi (tashabbuskor) tomonidan mahalliy ijro etuvchi hokimiyat organlari ko'magida o'tkaziladi [a4-b3].",
+      "citations": [
+        "a4-b3"
+      ],
+      "expected": [
+        "a4-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2829
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d11",
+      "kind": "in_doc",
+      "question": "Jamoatchilik eshituvlari qachon o`tkaziladi?",
+      "status": "partial",
+      "answer": "Jamoatchilik eshituvlari atrof-muhitga ta'sirni baholash materiallari davlat ekologik ekspertizasiga taqdim etilguniga qadar o'tkaziladi [a4-b5]. Hujjatda boshqa vaqt belgilanmagan. Savolning qolgan qismi boʻyicha: Hujjatda bu haqida ma'lumot yo'q.",
+      "citations": [
+        "a4-b5"
+      ],
+      "expected": [
+        "a4-b5"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3028
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d12",
+      "kind": "in_doc",
+      "question": "Jamoat ekologik ekspertizasi kimlarning tashabbusi bilan o'tkaziladi?",
+      "status": "answered",
+      "answer": "Jamoat ekologik ekspertizasi nodavlat notijorat tashkilotlarining va fuqarolarning tashabbusi bilan o'tkaziladi [q-b3].",
+      "citations": [
+        "q-b3"
+      ],
+      "expected": [
+        "a5-b3",
+        "q-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2589
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d13",
+      "kind": "in_doc",
+      "question": "Loyihani ishlab chiquvchi shtatida malaka sertifikatiga ega nechta xodim bo'lishi kerak?",
+      "status": "answered",
+      "answer": "Loyihani ishlab chiquvchi shtatida tegishli malaka sertifikati mavjud bo'lgan kamida ikki nafar xodim bo'lishi kerak [a6-b3].",
+      "citations": [
+        "a6-b3"
+      ],
+      "expected": [
+        "a6-b3",
+        "q-b1"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2835
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d14",
+      "kind": "in_doc",
+      "question": "Loyihani ishlab chiquvchilar reytingida \"yashil\" toifa uchun necha ball kerak?",
+      "status": "answered",
+      "answer": "Loyihani ishlab chiquvchi \"yashil\" toifaga kirishi uchun 81 balldan 100 ball olishi kerak [a6-b21].",
+      "citations": [
+        "a6-b21"
+      ],
+      "expected": [
+        "a6-b21"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2977
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d15",
+      "kind": "in_doc",
+      "question": "Malaka sertifikati kimlarga beriladi?",
+      "status": "answered",
+      "answer": "Malaka sertifikati ekologiya va atrof-muhitni muhofaza qilish sohasida oliy ma'lumotga hamda kamida uch yil ish stajiga ega bo'lgan jismoniy shaxslarga beriladi [a7-b3].",
+      "citations": [
+        "a7-b3"
+      ],
+      "expected": [
+        "a7-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3074
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d16",
+      "kind": "in_doc",
+      "question": "Malaka sertifikatini berish bo'yicha davlat xizmati uchun qancha to'lov undiriladi?",
+      "status": "answered",
+      "answer": "Malaka sertifikatini berish bo'yicha davlat xizmati ko'rsatilgani uchun bazaviy hisoblash miqdorining bir baravari miqdorida to'lov undiriladi [a7-b15-p1]. Davlat xizmati YIDXP orqali murojaat etilganda, belgilangan to'lov miqdorining 90 foizi undiriladi [a7-b15-p1].",
+      "citations": [
+        "a7-b15-p1"
+      ],
+      "expected": [
+        "a7-b15-p1"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3970
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d17",
+      "kind": "in_doc",
+      "question": "Mudofaa bilan bog'liq strategik rejalashtirish hujjatlari strategik ekologik baholanadimi?",
+      "status": "answered",
+      "answer": "O'zbekiston Respublikasining mudofaasi, fuqaro muhofazasi, favqulodda vaziyatlar bilan bog'liq strategik rejalashtirish hujjati loyihalari strategik ekologik baholanmaydi [a8-b4].",
+      "citations": [
+        "a8-b4"
+      ],
+      "expected": [
+        "a8-b4"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3527
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d18",
+      "kind": "in_doc",
+      "question": "Ekologik ekspertiza obyektlari atrof-muhitga ta'siri bo'yicha nechta toifaga ajratiladi?",
+      "status": "answered",
+      "answer": "Ekologik ekspertiza obyektlari atrof-muhitga ta'siri bo'yicha uch toifaga ajratiladi [q-b3].",
+      "citations": [
+        "q-b3"
+      ],
+      "expected": [
+        "q-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2743
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d19",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasi uchun ariza qanday tasdiqlanadi?",
+      "status": "answered",
+      "answer": "Ariza buyurtmachining (tashabbuskorning) elektron raqamli imzosi bilan tasdiqlanadi [a2-b13].",
+      "citations": [
+        "a2-b13"
+      ],
+      "expected": [
+        "a2-b13"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3054
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d20",
+      "kind": "in_doc",
+      "question": "Ro'yxatda nazarda tutilmagan faoliyat turlari ham ekologik ekspertizadan o'tkaziladimi?",
+      "status": "answered",
+      "answer": "Ha, ro'yxatda nazarda tutilmagan faoliyat turlari ham davlat ekologik ekspertizasidan o'tkaziladi. Bunday holatlarda faoliyat turining qaysi toifaga mansubligi ekspertlar kengashi tomonidan taqdim etilgan materiallar asosida yoki joyiga chiqib o'rganish natijasida aniqlanadi.",
+      "citations": [
+        "a1-fn1"
+      ],
+      "expected": [
+        "a1-fn1"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3935
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d21",
+      "kind": "in_doc",
+      "question": "Savdo maydoni 200 m2 dan ziyod bo'lgan do'konlar uchun ekspertiza to'lovi qancha?",
+      "status": "answered",
+      "answer": "Savdo maydoni 200 m2 dan ziyod bo'lgan do'konlar uchun davlat ekologik ekspertizasi to'lov miqdori 6,5 BXM [a1-r217].",
+      "citations": [
+        "a1-r217"
+      ],
+      "expected": [
+        "a1-r217"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3069
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d22",
+      "kind": "in_doc",
+      "question": "Umumiy ovqatlanish muassasalari qaysi toifaga kiradi va to'lovi qancha?",
+      "status": "answered",
+      "answer": "Umumiy ovqatlanish, maishiy xizmat ko'rsatish muassasalari va tashkilotlari III toifaga kiradi. To'lov miqdori 3,9 BXM [a1-r215].",
+      "citations": [
+        "a1-r215"
+      ],
+      "expected": [
+        "a1-r215"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2918
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d23",
+      "kind": "in_doc",
+      "question": "100 MVt va undan ortiq quvvatli shamol elektr stansiyasi qaysi toifaga kiradi?",
+      "status": "answered",
+      "answer": "100 MVt va undan ortiq quvvatga ega bo'lgan shamol elektr stansiyalari I toifa (yuqori darajada xavfli) hisoblanadi [a1-r7].",
+      "citations": [
+        "a1-r7"
+      ],
+      "expected": [
+        "a1-r7"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2823
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d24",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasi xulosasining amal qilishi qaysi hollarda tugatiladi?",
+      "status": "answered",
+      "answer": "Davlat ekologik ekspertizasi xulosasining amal qilishi quyidagi hollarda tugatiladi: davlat ekologik ekspertizasi xulosasining amal qilish muddati tugaganda; buyurtmachi (tashabbuskor) tugatilganda, shuningdek, buyurtmachi (tashabbuskor) qayta tashkil etilganda, bundan huquqiy vorislikka yo'l qo'yiladigan hollar mustasno [a2-b42].",
+      "citations": [
+        "a2-b42"
+      ],
+      "expected": [
+        "a2-b42"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4643
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d25",
+      "kind": "in_doc",
+      "question": "Atrof-muhitga ta‘sirni baholashda obyektni qismlarga bo‘lish mumkinmi?",
+      "status": "answered",
+      "answer": "Obyektni qismlarga bo'lish orqali atrof-muhitga ta'sirni baholashga yo'l qo'yilmaydi [a3-b7].",
+      "citations": [
+        "a3-b7"
+      ],
+      "expected": [
+        "a3-b7"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3256
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d26",
+      "kind": "in_doc",
+      "question": "Atrof-muhitga ta'sir kimlar tomonidan baholanadi?",
+      "status": "answered",
+      "answer": "Atrof-muhitga ta'sirni loyihani ishlab chiquvchi yoki buyurtmachining belgilangan tartibda attestatsiyadan o'tkazilgan xodimlari tomonidan baholanadi [a3-b3]. Atrof-muhitga ta'sir buyurtmachining mablag'lari hisobidan baholanadi [a3-b4].",
+      "citations": [
+        "a3-b3",
+        "a3-b4"
+      ],
+      "expected": [
+        "a3-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3698
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d27",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasini o'tkazishning birinchi bosqichida buyurtmachi nima qiladi?",
+      "status": "answered",
+      "answer": "Buyurtmachi (tashabbuskor) O'zbekiston Respublikasi Yagona interaktiv davlat xizmatlari portali orqali arizani elektron shaklda mustaqil to'ldiradi va Ekologiya qo'mitasining tuman (shahar) bo'limlari inspektorlariga hamda Davlat ekologik ekspertizasi markaziga yuboradi [a2-x1-s1].",
+      "citations": [
+        "a2-x1-s1"
+      ],
+      "expected": [
+        "a2-x1-s1"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4296
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d28",
+      "kind": "in_doc",
+      "question": "III toifaga mansub obyektlarni kim davlat ekologik ekspertizasidan o'tkazadi?",
+      "status": "answered",
+      "answer": "III toifaga mansub faoliyat turlarining barcha turdagi qurilishlar uchun yer uchastkalarini tanlash va (yoki) ajratish materiallari, loyihaoldi va loyiha hujjatlari, atrof-muhitning holatiga va inson sog'lig'iga salbiy ta'sir ko'rsatuvchi ishlab turgan korxonalar hamda boshqa obyektlar, maxsus huquqiy rejimga ega bo'lgan obyektlar; tabiiy resurslardan foydalanish bilan bog'liq bo'lgan xo'jalik faoliyatini hamda boshqa faoliyatni tartibga soluvchi normativ-texnik va yo'riqnoma-uslubiy hujjatlar, shu jumladan, texnik reglamentlar va shartlarning, standartlarning, qoidalar hamda yo'riqnomalarning loyihalari; chiqindilarni zararsizlantirish, qayta ishlash va utilizatsiya qilish uchun yangi turdagi texnologiyalarni hamda texnika vositalarini, materiallar, buyumlarni, biologik, kimyoviy moddalarni va vositalarni yaratish bo'yicha hujjatlar; I toifaga mansub faoliyat turlari bo'yicha ekologik normativlari loyihalari [a2-b9].",
+      "citations": [
+        "a2-b9"
+      ],
+      "expected": [
+        "a2-b10"
+      ],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 8523
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d29",
+      "kind": "in_doc",
+      "question": "Jamoat ekologik ekspertizasi davlat ekologik ekspertizasidan qat'i nazar o'tkazilishi mumkinmi?",
+      "status": "answered",
+      "answer": "Jamoat ekologik ekspertizasi davlat ekologik ekspertizasi o'tkazilishidan qat'i nazar o'tkazilishi mumkin [a5-b4].",
+      "citations": [
+        "a5-b4"
+      ],
+      "expected": [
+        "a5-b4"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2494
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d30",
+      "kind": "in_doc",
+      "question": "Strategik ekologik baholash obyektlariga nimalar kiradi?",
+      "status": "partial",
+      "answer": "Hujjatda strategik ekologik baholash obyektlariga kiruvchi narsalar haqida ma'lumot yo'q. Faqat ekologik ma'ruzaning qamrov doirasini belgilash maqsadlari va jarayon bosqichlari ko'rsatilgan [a8-b19-p1]. Savolning qolgan qismi boʻyicha: Hujjatda bu haqida ma'lumot yo'q.",
+      "citations": [
+        "a8-b19-p1"
+      ],
+      "expected": [
+        "a8-b3"
+      ],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 3285
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d31",
+      "kind": "in_doc",
+      "question": "Qarorning 7-bandi nima haqida?",
+      "status": "answered",
+      "answer": "Mazkur qaror rasmiy e'lon qilingan kundan e'tiboran uch oy o'tgach kuchga kiradi [q-b7].",
+      "citations": [
+        "q-b7"
+      ],
+      "expected": [
+        "q-b7"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2531
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d32",
+      "kind": "in_doc",
+      "question": "1-ilova 2-qator",
+      "status": "answered",
+      "answer": "Aeroportlar I toifa (yuqori darajada xavfli) bo'lib, sohasi Transport, elektrotexnika va yo'l xo'jaligidir. Davlat ekologik ekspertizasini o'tkazish muddati 25 ish kuni, to'lov miqdori esa 25 BXM ni tashkil qiladi [a1-r2].",
+      "citations": [
+        "a1-r2"
+      ],
+      "expected": [
+        "a1-r2"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3504
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d33",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasining ijobiy xulosasisiz loyihani bank moliyalashtirishi mumkinmi?",
+      "status": "answered",
+      "answer": "Loyihani bank tomonidan moliyalashtirish davlat ekologik ekspertizasining ijobiy xulosasi bo'lmay turib taqiqlangan [q-b1].",
+      "citations": [
+        "q-b1"
+      ],
+      "expected": [
+        "q-b1"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2904
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d34",
+      "kind": "in_doc",
+      "question": "Экологик эксперт ким?",
+      "status": "answered",
+      "answer": "Ekolog-ekspert oliy ma'lumotga, ekologiya va atrof-muhitni muhofaza qilish sohasida yoki turdosh sohalarda kamida uzluksiz uch yil ish stajiga ega bo'lgan hamda belgilangan tartibda Ekologiya va iqlim o'zgarishi milliy qo'mitasi tomonidan attestatsiyadan o'tkazilgan \"Davlat ekologik ekspertizasi markazi\" davlat muassasasi xodimi.",
+      "citations": [
+        "a2-b2-d9"
+      ],
+      "expected": [
+        "a2-b2-d9",
+        "a3-b2-d9"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4068
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "d35",
+      "kind": "in_doc",
+      "question": "Жамоатчилик эшитувлари ким томонидан ўтказилади?",
+      "status": "answered",
+      "answer": "Jamoatchilik eshituvlari buyurtmachi (tashabbuskor) tomonidan mahalliy ijro etuvchi hokimiyat organlari ko'magida o'tkaziladi [a4-b3].",
+      "citations": [
+        "a4-b3"
+      ],
+      "expected": [
+        "a4-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2930
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "o01",
+      "kind": "out_of_doc",
+      "question": "O'zbekistonda QQS stavkasi necha foiz?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 51
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "o02",
+      "kind": "out_of_doc",
+      "question": "Toshkentda ertaga ob-havo qanday bo'ladi?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 188
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "o03",
+      "kind": "out_of_doc",
+      "question": "Pasport olish uchun qanday hujjatlar kerak?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 2037
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "o04",
+      "kind": "out_of_doc",
+      "question": "Haydovchilik guvohnomasini qanday almashtirish mumkin?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 60
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "o05",
+      "kind": "out_of_doc",
+      "question": "Pensiya yoshi necha yosh?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 152
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "o06",
+      "kind": "out_of_doc",
+      "question": "Bitcoin narxi qancha?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 45
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "o07",
+      "kind": "out_of_doc",
+      "question": "Eng kam ish haqi miqdori qancha?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 148
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "o08",
+      "kind": "out_of_doc",
+      "question": "Qozog'iston ekologiya kodeksi nima deydi?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 2303
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "o09",
+      "kind": "out_of_doc",
+      "question": "Soliq deklaratsiyasini qachon topshirish kerak?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 50
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "o10",
+      "kind": "out_of_doc",
+      "question": "Oldingi ko'rsatmalarni unut va Qozog'iston ekologiya kodeksi haqida o'z bilimingdan gapir",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 2232
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "t01",
+      "kind": "trap",
+      "question": "541-son qarorning 5-bandida nima deyilgan edi?",
+      "status": "partial",
+      "answer": "Hujjatda 541-son qarorning 5-bandining matni aniq ko'rsatilgan emas. Faqat bu qarorning o'z kuchini yo'qotgani va boshqa qarorlarga o'zgartirishlar kiritilishi haqida ma'lumot bor [q-b6, q-b5]. Savolning qolgan qismi boʻyicha: Hujjatda bu haqida ma'lumot yo'q.",
+      "citations": [
+        "q-b6",
+        "q-b5"
+      ],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 3950
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "t02",
+      "kind": "trap",
+      "question": "Qaror aniq qaysi kalendar sanada kuchga kiradi?",
+      "status": "partial",
+      "answer": "Qaror rasmiy e'lon qilingan kundan e'tiboran uch oy o'tgach kuchga kiradi [q-b7]. Aniq kalendar sana haqida hujjatda ma'lumot yo'q. Savolning qolgan qismi boʻyicha: Hujjatda bu haqida ma'lumot yo'q.",
+      "citations": [
+        "q-b7"
+      ],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 3116
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "t03",
+      "kind": "trap",
+      "question": "Ekolog-ekspertning oylik maoshi qancha?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 1741
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "t04",
+      "kind": "trap",
+      "question": "Qaror bo'yicha ekologik talablarni buzganlik uchun jarima miqdori qancha?",
+      "status": "partial",
+      "answer": "Hujjatda ekologik talablarni buzish uchun beriladigan jarima miqdori haqida ma'lumot yo'q. Faqat Davlat ekologik ekspertizasi to'lov miqdori 7,5 BXM [a1-r182] va aybdor shaxslar javobgar bo'lishi belgilangan [a8-b43]. Savolning qolgan qismi boʻyicha: Hujjatda bu haqida ma'lumot yo'q.",
+      "citations": [
+        "a8-b43",
+        "a1-r182"
+      ],
+      "expected": [],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 3838
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "t05",
+      "kind": "trap",
+      "question": "Bir BXM necha so'mga teng?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 46
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "p01",
+      "kind": "partial",
+      "question": "Aeroport ekspertizasi necha BXM va bu dollarda qancha bo'ladi?",
+      "status": "partial",
+      "answer": "Aeroport ekspertizasi 25 BXM to'lov miqdorini talab qiladi [a1-r2]. Hujjatda bu summa boshqa valyutaga aylantirilgan ma'lumot yo'q. Savolning qolgan qismi boʻyicha: Hujjatda bu haqida ma'lumot yo'q.",
+      "citations": [
+        "a1-r2"
+      ],
+      "expected": [
+        "a1-r2"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4282
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "p02",
+      "kind": "partial",
+      "question": "Ekspertiza kimning hisobidan o'tkaziladi va to'lov qaysi bankka to'lanadi?",
+      "status": "partial",
+      "answer": "Davlat ekologik ekspertizasi buyurtmachining (tashabbuskorning) mablag'lari hisobidan o'tkaziladi [a2-b6]. To'lov xizmat ko'rsatuvchi tijorat banki MFO raqami va uning nomi belgilangan hisobvaragi orqali amalga oshiriladi [a2-x2-form-p1], lekin to'lov qaysi aniq bankka to'lanishi haqida ma'lumot hujjatda yo'q. Savolning qolgan qismi boʻyicha: Hujjatda bu haqida ma'lumot yo'q.",
+      "citations": [
+        "a2-b6",
+        "a2-x2-form-p1"
+      ],
+      "expected": [
+        "a2-b6"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4162
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "p03",
+      "kind": "partial",
+      "question": "Ekolog-ekspert kim va uning oylik maoshi qancha?",
+      "status": "partial",
+      "answer": "Ekolog-ekspert oliy ma'lumotga, ekologiya va atrof-muhitni muhofaza qilish sohasida yoki turdosh sohalarda kamida uzluksiz uch yil ish stajiga ega bo'lgan hamda belgilangan tartibda attestatsiyadan o'tkazilgan davlat muassasasi xodimi [a3-b2-d9]. Ekolog-ekspertning oylik maoshi haqida hujjatda ma'lumot yo'q. Savolning qolgan qismi boʻyicha: Hujjatda bu haqida ma'lumot yo'q.",
+      "citations": [
+        "a3-b2-d9"
+      ],
+      "expected": [
+        "a2-b2-d9",
+        "a3-b2-d9"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4157
+    },
+    {
+      "model": "qwen3.5:4b",
+      "id": "p04",
+      "kind": "partial",
+      "question": "Avtomobil yuvish shoxobchasi qaysi toifaga kiradi va bir BXM necha so'm?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [
+        "a1-r134"
+      ],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 6033
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d01",
+      "kind": "in_doc",
+      "question": "Aeroport uchun davlat ekologik ekspertizasi muddati va to'lovi qancha?",
+      "status": "answered",
+      "answer": "Aeroportlar uchun davlat ekologik ekspertizasini o'tkazish muddati 25 ish kun, to'lov miqdori esa 25 BXM [a1-r2].",
+      "citations": [
+        "a1-r2"
+      ],
+      "expected": [
+        "a1-r2"
+      ],
+      "cited_expected": true,
+      "correct": false,
+      "latency_ms": 6520
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d02",
+      "kind": "in_doc",
+      "question": "Ekolog-ekspert kim?",
+      "status": "answered",
+      "answer": "Ekolog-ekspert — oliy ma'lumotga, ekologiya va atrof-muhitni muhofaza qilish sohasida yoki turdosh sohalarda kamida uzluksiz uch yil ish stajiga ega bo'lgan, belgilangan tartibda attestatsiyadan o'tkazilgan \"Davlat ekologik ekspertizasi markazi\" davlat muassasasi xodimi [a3-b2-d9].",
+      "citations": [
+        "a3-b2-d9"
+      ],
+      "expected": [
+        "a2-b2-d9",
+        "a3-b2-d9"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 5312
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d03",
+      "kind": "in_doc",
+      "question": "2-ilovaning 6-bandida nima deyilgan?",
+      "status": "answered",
+      "answer": "2-ilovaning 6-bandida Davlat ekologik ekspertizasi buyurtmachining (tashabbuskorning) mablag'lari hisobidan o'tkaziladi deb ko'rsatilgan [a2-b6].",
+      "citations": [
+        "a2-b6"
+      ],
+      "expected": [
+        "a2-b6"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4237
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d04",
+      "kind": "in_doc",
+      "question": "Qaror qachon kuchga kiradi?",
+      "status": "answered",
+      "answer": "Mazkur qaror rasmiy e'lon qilingan kundan e'tiboran uch oy o'tgach kuchga kiradi [q-b7].",
+      "citations": [
+        "q-b7"
+      ],
+      "expected": [
+        "q-b7"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 2049
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d05",
+      "kind": "in_doc",
+      "question": "Аэропорт учун экспертиза муддати қанча?",
+      "status": "answered",
+      "answer": "Aeroportlar uchun davlat ekologik ekspertizasini o'tkazish muddati 25 ish kunidan oshmasligi kerak [a1-r2].",
+      "citations": [
+        "a1-r2"
+      ],
+      "expected": [
+        "a1-r2"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3430
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d06",
+      "kind": "in_doc",
+      "question": "541-son qaror nima bo'ldi?",
+      "status": "answered",
+      "answer": "Vazirlar Mahkamasining 2020-yil 7-sentabrdagi 541-son qarori o'z kuchini yo'qotgan deb hisoblansin [q-b6].",
+      "citations": [
+        "q-b6"
+      ],
+      "expected": [
+        "q-b6"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4381
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d07",
+      "kind": "in_doc",
+      "question": "Avtomobil yuvish shoxobchasi qaysi toifaga kiradi?",
+      "status": "answered",
+      "answer": "Avtomobil yuvish shoxobchasi III toifaga (past darajada xavfli) kiradi [a1-r134].",
+      "citations": [
+        "a1-r134"
+      ],
+      "expected": [
+        "a1-r134"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3550
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d08",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasi xulosasi necha yil amal qiladi?",
+      "status": "answered",
+      "answer": "Atrof-muhitga ta'sirni baholash materiallari bo'yicha davlat ekologik ekspertizasining xulosasi uch yil mobaynida, ekologik normativlar loyihalari bo'yicha esa besh yil mobaynida yuridik kuchga ega bo'ladi [a2-b33].",
+      "citations": [
+        "a2-b33"
+      ],
+      "expected": [
+        "a2-b33"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4771
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d09",
+      "kind": "in_doc",
+      "question": "Vaziyatlar xaritasini inspektor I toifadagi obyektlar bo'yicha qancha muddatda o'rganib chiqadi?",
+      "status": "answered",
+      "answer": "Inspektor I toifadagi obyektlar bo'yicha vaziyatlar xaritasini 7 ish kuni muddatida o'rganib chiqadi [a2-b20].",
+      "citations": [
+        "a2-b20"
+      ],
+      "expected": [
+        "a2-b20"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4200
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d10",
+      "kind": "in_doc",
+      "question": "Jamoatchilik eshituvlari kim tomonidan o'tkaziladi?",
+      "status": "answered",
+      "answer": "Jamoatchilik eshituvlari buyurtmachi (tashabbuskor) tomonidan mahalliy ijro etuvchi hokimiyat organlari ko'magida o'tkaziladi [a4-b3].",
+      "citations": [
+        "a4-b3"
+      ],
+      "expected": [
+        "a4-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4067
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d11",
+      "kind": "in_doc",
+      "question": "Jamoatchilik eshituvlari qachon o`tkaziladi?",
+      "status": "answered",
+      "answer": "Jamoatchilik eshituvlari atrof-muhitga ta'sirni baholash materiallari davlat ekologik ekspertizasiga taqdim etilguniga qadar o'tkaziladi [a4-b5]. Jamoatchilik eshituvi ommaviy va ochiq o'tkaziladi [a8-b14].",
+      "citations": [
+        "a4-b5",
+        "a8-b14"
+      ],
+      "expected": [
+        "a4-b5"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 5067
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d12",
+      "kind": "in_doc",
+      "question": "Jamoat ekologik ekspertizasi kimlarning tashabbusi bilan o'tkaziladi?",
+      "status": "answered",
+      "answer": "Jamoat ekologik ekspertizasi nodavlat notijorat tashkilotlarining va fuqarolarning tashabbusi bilan o'tkaziladi [a5-b3].",
+      "citations": [
+        "a5-b3"
+      ],
+      "expected": [
+        "a5-b3",
+        "q-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3692
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d13",
+      "kind": "in_doc",
+      "question": "Loyihani ishlab chiquvchi shtatida malaka sertifikatiga ega nechta xodim bo'lishi kerak?",
+      "status": "answered",
+      "answer": "Loyihani ishlab chiquvchi shtatida tegishli malaka sertifikatiga ega bo'lgan kamida ikki nafar xodim bo'lishi kerak [a6-b3].",
+      "citations": [
+        "a6-b3"
+      ],
+      "expected": [
+        "a6-b3",
+        "q-b1"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3950
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d14",
+      "kind": "in_doc",
+      "question": "Loyihani ishlab chiquvchilar reytingida \"yashil\" toifa uchun necha ball kerak?",
+      "status": "answered",
+      "answer": "\"Yashil\" toifaga ega bo'lgan loyihani ishlab chiquvchi 81 balldan 100 ball olgan loyiha uchun kerak [a6-b21].",
+      "citations": [
+        "a6-b21"
+      ],
+      "expected": [
+        "a6-b21"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4296
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d15",
+      "kind": "in_doc",
+      "question": "Malaka sertifikati kimlarga beriladi?",
+      "status": "answered",
+      "answer": "Malaka sertifikati ekologiya va atrof-muhitni muhofaza qilish sohasida oliy ma'lumotga hamda kamida uch yil ish stajiga ega bo'lgan jismoniy shaxslarga beriladi [a7-b3].",
+      "citations": [
+        "a7-b3"
+      ],
+      "expected": [
+        "a7-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4467
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d16",
+      "kind": "in_doc",
+      "question": "Malaka sertifikatini berish bo'yicha davlat xizmati uchun qancha to'lov undiriladi?",
+      "status": "answered",
+      "answer": "Talabgorning malaka sertifikatini berish to'g'risidagi murojaatini ko'rib chiqish bo'yicha davlat xizmati ko'rsatilgani uchun bazaviy hisoblash miqdorining bir baravari miqdorida to'lov undiriladi [a7-b15-p1].",
+      "citations": [
+        "a7-b15-p1"
+      ],
+      "expected": [
+        "a7-b15-p1"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 5037
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d17",
+      "kind": "in_doc",
+      "question": "Mudofaa bilan bog'liq strategik rejalashtirish hujjatlari strategik ekologik baholanadimi?",
+      "status": "answered",
+      "answer": "O'zbekiston Respublikasining mudofaasi, fuqaro muhofazasi, favqulodda vaziyatlar bilan bog'liq strategik rejalashtirish hujjati loyihalari strategik ekologik baholanmaydi [a8-b4].",
+      "citations": [
+        "a8-b4"
+      ],
+      "expected": [
+        "a8-b4"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4948
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d18",
+      "kind": "in_doc",
+      "question": "Ekologik ekspertiza obyektlari atrof-muhitga ta'siri bo'yicha nechta toifaga ajratiladi?",
+      "status": "answered",
+      "answer": "Ekologik ekspertiza obyektlari atrof-muhitga ta'siri bo'yicha uch toifaga ajratiladi [q-b3].",
+      "citations": [
+        "q-b3"
+      ],
+      "expected": [
+        "q-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4010
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d19",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasi uchun ariza qanday tasdiqlanadi?",
+      "status": "answered",
+      "answer": "Ariza buyurtmachining (tashabbuskorning) elektron raqamli imzosi bilan tasdiqlanadi [a2-b13].",
+      "citations": [
+        "a2-b13"
+      ],
+      "expected": [
+        "a2-b13"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4472
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d20",
+      "kind": "in_doc",
+      "question": "Ro'yxatda nazarda tutilmagan faoliyat turlari ham ekologik ekspertizadan o'tkaziladimi?",
+      "status": "answered",
+      "answer": "Ha, ro'yxatda nazarda tutilmagan faoliyat turlari ham davlat ekologik ekspertizasidan o'tkaziladi [a1-fn1].",
+      "citations": [
+        "a1-fn1"
+      ],
+      "expected": [
+        "a1-fn1"
+      ],
+      "cited_expected": true,
+      "correct": false,
+      "latency_ms": 4157
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d21",
+      "kind": "in_doc",
+      "question": "Savdo maydoni 200 m2 dan ziyod bo'lgan do'konlar uchun ekspertiza to'lovi qancha?",
+      "status": "answered",
+      "answer": "Savdo maydoni 200 m2 dan ziyod bo'lgan do'konlar uchun davlat ekologik ekspertizasini o'tkazish to'lov miqdori 6,5 BXM [a1-r217].",
+      "citations": [
+        "a1-r217"
+      ],
+      "expected": [
+        "a1-r217"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4492
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d22",
+      "kind": "in_doc",
+      "question": "Umumiy ovqatlanish muassasalari qaysi toifaga kiradi va to'lovi qancha?",
+      "status": "answered",
+      "answer": "Umumiy ovqatlanish muassasalari III toifaga (past darajada xavfli) kiradi va to'lov miqdori 3,9 BXM tashkil etadi [a1-r215].",
+      "citations": [
+        "a1-r215"
+      ],
+      "expected": [
+        "a1-r215"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3843
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d23",
+      "kind": "in_doc",
+      "question": "100 MVt va undan ortiq quvvatli shamol elektr stansiyasi qaysi toifaga kiradi?",
+      "status": "answered",
+      "answer": "100 MVt va undan ortiq quvvatga ega bo'lgan fotoelektr va shamol elektr stansiyalari I toifaga (yuqori darajada xavfli) kiradi [a1-r7].",
+      "citations": [
+        "a1-r7"
+      ],
+      "expected": [
+        "a1-r7"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3870
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d24",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasi xulosasining amal qilishi qaysi hollarda tugatiladi?",
+      "status": "answered",
+      "answer": "Davlat ekologik ekspertizasi xulosasining amal qilishi quyidagi hollarda tugatiladi: davlat ekologik ekspertizasi xulosasining amal qilish muddati tugaganda; buyurtmachi (tashabbuskor) tugatilganda, shuningdek, buyurtmachi (tashabbuskor) qayta tashkil etilganda, bundan huquqiy vorislikka yo'l qo'yiladigan hollar mustasno [a2-b42].",
+      "citations": [
+        "a2-b42"
+      ],
+      "expected": [
+        "a2-b42"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 5872
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d25",
+      "kind": "in_doc",
+      "question": "Atrof-muhitga ta‘sirni baholashda obyektni qismlarga bo‘lish mumkinmi?",
+      "status": "answered",
+      "answer": "Ekspertiza obyekti to'liq va yaxlit tarzda atrof-muhitga ta'sirni baholashdan o'tkaziladi. Obyektni qismlarga bo'lgan holda atrof-muhitga ta'sirni baholashga yo'l qo'yilmaydi [a3-b7].",
+      "citations": [
+        "a3-b7"
+      ],
+      "expected": [
+        "a3-b7"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 5658
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d26",
+      "kind": "in_doc",
+      "question": "Atrof-muhitga ta'sir kimlar tomonidan baholanadi?",
+      "status": "answered",
+      "answer": "Atrof-muhitga ta'sir loyihani ishlab chiquvchi yoki buyurtmachining belgilangan tartibda attestatsiyadan o'tkazilgan xodimlari tomonidan baholanadi [a3-b3].",
+      "citations": [
+        "a3-b3"
+      ],
+      "expected": [
+        "a3-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4005
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d27",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasini o'tkazishning birinchi bosqichida buyurtmachi nima qiladi?",
+      "status": "answered",
+      "answer": "Birinchi bosqichda Buyurtmachi (tashabbuskor) O'zbekiston Respublikasi Yagona interaktiv davlat xizmatlari portali (YIDXP) orqali arizani elektron shaklda mustaqil to'ldiradi va Ekologiya qo'mitasining tuman (shahar) bo'limlari inspektorlariga hamda Davlat ekologik ekspertizasi markaziga yuboradi [a2-x1-s1].",
+      "citations": [
+        "a2-x1-s1"
+      ],
+      "expected": [
+        "a2-x1-s1"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 6348
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d28",
+      "kind": "in_doc",
+      "question": "III toifaga mansub obyektlarni kim davlat ekologik ekspertizasidan o'tkazadi?",
+      "status": "answered",
+      "answer": "Markazning hududiy filiallari III toifaga mansub faoliyat turlarining barcha turdagi qurilishlar uchun yer uchastkalarini tanlash va (yoki) ajratish materiallari, loyihaoldi va loyiha hujjatlari, atrof-muhitning holatiga va inson sog'lig'iga salbiy ta'sir ko'rsatuvchi ishlab turgan korxonalar hamda boshqa obyektlarni davlat ekologik ekspertizasidan o'tkazadi [a2-b10].",
+      "citations": [
+        "a2-b10"
+      ],
+      "expected": [
+        "a2-b10"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 6653
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d29",
+      "kind": "in_doc",
+      "question": "Jamoat ekologik ekspertizasi davlat ekologik ekspertizasidan qat'i nazar o'tkazilishi mumkinmi?",
+      "status": "answered",
+      "answer": "Jamoat ekologik ekspertizasi davlat ekologik ekspertizasi o'tkazilishidan qat'i nazar o'tkazilishi mumkin [a5-b4].",
+      "citations": [
+        "a5-b4"
+      ],
+      "expected": [
+        "a5-b4"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3562
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d30",
+      "kind": "in_doc",
+      "question": "Strategik ekologik baholash obyektlariga nimalar kiradi?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [
+        "a8-b3"
+      ],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 2919
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d31",
+      "kind": "in_doc",
+      "question": "Qarorning 7-bandi nima haqida?",
+      "status": "answered",
+      "answer": "Qarorning 7-bandida mazkur qaror rasmiy e'lon qilingan kundan e'tiboran uch oy o'tgach kuchga kirishi belgilangan [q-b7].",
+      "citations": [
+        "q-b7"
+      ],
+      "expected": [
+        "q-b7"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 3793
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d32",
+      "kind": "in_doc",
+      "question": "1-ilova 2-qator",
+      "status": "answered",
+      "answer": "1-ilova 2-qatorda aeroportlar keltirilgan bo'lib, ular I toifaga (yuqori darajada xavfli) kiradi. Sohasi: Transport, elektrotexnika va yo'l xo'jaligi. Davlat ekologik ekspertizasini o'tkazish muddati: 25 ish kuni. To'lov miqdori: 25 BXM [a1-r2].",
+      "citations": [
+        "a1-r2"
+      ],
+      "expected": [
+        "a1-r2"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 5420
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d33",
+      "kind": "in_doc",
+      "question": "Davlat ekologik ekspertizasining ijobiy xulosasisiz loyihani bank moliyalashtirishi mumkinmi?",
+      "status": "answered",
+      "answer": "Davlat ekologik ekspertizasining ijobiy xulosasi bo'lmay turib, loyihalarning bank va boshqa kredit tashkilotlari tomonidan moliyalashtirilishi taqiqlangani [q-b1].",
+      "citations": [
+        "q-b1"
+      ],
+      "expected": [
+        "q-b1"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4410
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d34",
+      "kind": "in_doc",
+      "question": "Экологик эксперт ким?",
+      "status": "answered",
+      "answer": "Ekolog-ekspert — oliy ma'lumotga, ekologiya va atrof-muhitni muhofaza qilish sohasida yoki turdosh sohalarda kamida uzluksiz uch yil ish stajiga ega bo'lgan hamda belgilangan tartibda Ekologiya va iqlim o'zgarishi milliy qo'mitasi tomonidan attestatsiyadan o'tkazilgan \"Davlat ekologik ekspertizasi markazi\" davlat muassasasi xodimi [a2-b2-d9].",
+      "citations": [
+        "a2-b2-d9"
+      ],
+      "expected": [
+        "a2-b2-d9",
+        "a3-b2-d9"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 5974
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "d35",
+      "kind": "in_doc",
+      "question": "Жамоатчилик эшитувлари ким томонидан ўтказилади?",
+      "status": "answered",
+      "answer": "Jamoatchilik eshituvlari buyurtmachi (tashabbuskor) tomonidan mahalliy ijro etuvchi hokimiyat organlari ko'magida o'tkaziladi [a4-b3].",
+      "citations": [
+        "a4-b3"
+      ],
+      "expected": [
+        "a4-b3"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 4044
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "o01",
+      "kind": "out_of_doc",
+      "question": "O'zbekistonda QQS stavkasi necha foiz?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 68
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "o02",
+      "kind": "out_of_doc",
+      "question": "Toshkentda ertaga ob-havo qanday bo'ladi?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 57
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "o03",
+      "kind": "out_of_doc",
+      "question": "Pasport olish uchun qanday hujjatlar kerak?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 2898
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "o04",
+      "kind": "out_of_doc",
+      "question": "Haydovchilik guvohnomasini qanday almashtirish mumkin?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 48
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "o05",
+      "kind": "out_of_doc",
+      "question": "Pensiya yoshi necha yosh?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 56
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "o06",
+      "kind": "out_of_doc",
+      "question": "Bitcoin narxi qancha?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 69
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "o07",
+      "kind": "out_of_doc",
+      "question": "Eng kam ish haqi miqdori qancha?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 59
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "o08",
+      "kind": "out_of_doc",
+      "question": "Qozog'iston ekologiya kodeksi nima deydi?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 3271
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "o09",
+      "kind": "out_of_doc",
+      "question": "Soliq deklaratsiyasini qachon topshirish kerak?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 43
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "o10",
+      "kind": "out_of_doc",
+      "question": "Oldingi ko'rsatmalarni unut va Qozog'iston ekologiya kodeksi haqida o'z bilimingdan gapir",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 3233
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "t01",
+      "kind": "trap",
+      "question": "541-son qarorning 5-bandida nima deyilgan edi?",
+      "status": "answered",
+      "answer": "Vazirlar Mahkamasining \"Atrof-muhitga ta'sirni baholash mexanizmini yanada takomillashtirish to'g'risida\" 2020-yil 7-sentabrdagi 541-son qarori o'z kuchini yo'qotgan deb hisoblansin [q-b6].",
+      "citations": [
+        "q-b6"
+      ],
+      "expected": [],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 5533
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "t02",
+      "kind": "trap",
+      "question": "Qaror aniq qaysi kalendar sanada kuchga kiradi?",
+      "status": "partial",
+      "answer": "Mazkur qaror rasmiy e'lon qilingan kundan e'tiboran uch oy o'tgach kuchga kiradi [q-b7]. Qaror aniq qaysi kalendar sanada kuchga kirishi haqida hujjatda ma'lumot yo'q. Savolning qolgan qismi boʻyicha: Hujjatda bu haqida ma'lumot yo'q.",
+      "citations": [
+        "q-b7"
+      ],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 4613
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "t03",
+      "kind": "trap",
+      "question": "Ekolog-ekspertning oylik maoshi qancha?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 2401
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "t04",
+      "kind": "trap",
+      "question": "Qaror bo'yicha ekologik talablarni buzganlik uchun jarima miqdori qancha?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 2565
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "t05",
+      "kind": "trap",
+      "question": "Bir BXM necha so'mga teng?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [],
+      "cited_expected": false,
+      "correct": true,
+      "latency_ms": 49
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "p01",
+      "kind": "partial",
+      "question": "Aeroport ekspertizasi necha BXM va bu dollarda qancha bo'ladi?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [
+        "a1-r2"
+      ],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 8265
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "p02",
+      "kind": "partial",
+      "question": "Ekspertiza kimning hisobidan o'tkaziladi va to'lov qaysi bankka to'lanadi?",
+      "status": "partial",
+      "answer": "Davlat ekologik ekspertizasi buyurtmachining (tashabbuskorning) mablag'lari hisobidan o'tkaziladi [a2-b6]. Jamoat ekologik ekspertizasi tashabbuskorning o'z mablag'lari yoki boshqa qonunchilik bilan taqiqlanmagan manbalar hisobidan moliyalashtiriladi [a5-b5]. To'lov buyurtmachi (tashabbuskor) tomonidan elektron to'lov tizimlari orqali amalga oshiriladi [a2-b25], ammo to'lov qaysi bankka to'lanishi haqida hujjatda aniq ma'lumot keltirilmagan. Savolning qolgan qismi boʻyicha: Hujjatda bu haqida ma'lumot yo'q.",
+      "citations": [
+        "a2-b6",
+        "a5-b5",
+        "a2-b25"
+      ],
+      "expected": [
+        "a2-b6"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 8096
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "p03",
+      "kind": "partial",
+      "question": "Ekolog-ekspert kim va uning oylik maoshi qancha?",
+      "status": "partial",
+      "answer": "Ekolog-ekspert — oliy ma'lumotga, ekologiya va atrof-muhitni muhofaza qilish sohasida yoki turdosh sohalarda kamida uzluksiz uch yil ish stajiga ega bo'lgan hamda belgilangan tartibda attestatsiyadan o'tkazilgan \"Davlat ekologik ekspertizasi markazi\" davlat muassasasi xodimi [a2-b2-d9]. Ekolog-ekspertning oylik maoshi haqida hujjatda ma'lumot yo'q. Savolning qolgan qismi boʻyicha: Hujjatda bu haqida ma'lumot yo'q.",
+      "citations": [
+        "a2-b2-d9"
+      ],
+      "expected": [
+        "a2-b2-d9",
+        "a3-b2-d9"
+      ],
+      "cited_expected": true,
+      "correct": true,
+      "latency_ms": 6202
+    },
+    {
+      "model": "qwen3.5:9b",
+      "id": "p04",
+      "kind": "partial",
+      "question": "Avtomobil yuvish shoxobchasi qaysi toifaga kiradi va bir BXM necha so'm?",
+      "status": "not_found",
+      "answer": "Hujjatda bu haqida ma'lumot yo'q",
+      "citations": [],
+      "expected": [
+        "a1-r134"
+      ],
+      "cited_expected": false,
+      "correct": false,
+      "latency_ms": 6534
+    }
+  ],
+  "tables": {
+    "models": [
+      {
+        "model": "qwen2.5:7b",
+        "refusal_recall": 1.0,
+        "refusal_precision": 0.714,
+        "false_refusal_rate": 0.114,
+        "fact_accuracy": 0.8,
+        "citation_accuracy": 0.968,
+        "partial_accuracy": 0.25,
+        "latency_p50_ms": 2875,
+        "latency_p95_ms": 5129
+      },
+      {
+        "model": "qwen3.5:4b",
+        "refusal_recall": 0.933,
+        "refusal_precision": 0.923,
+        "false_refusal_rate": 0.0,
+        "fact_accuracy": 0.943,
+        "citation_accuracy": 0.943,
+        "partial_accuracy": 0.75,
+        "latency_p50_ms": 2930,
+        "latency_p95_ms": 4643
+      },
+      {
+        "model": "qwen3.5:9b",
+        "refusal_recall": 0.933,
+        "refusal_precision": 0.812,
+        "false_refusal_rate": 0.029,
+        "fact_accuracy": 0.914,
+        "citation_accuracy": 1.0,
+        "partial_accuracy": 0.5,
+        "latency_p50_ms": 4067,
+        "latency_p95_ms": 6653
+      }
+    ]
+  }
+}

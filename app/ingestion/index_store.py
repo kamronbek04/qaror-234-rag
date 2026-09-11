@@ -21,7 +21,7 @@ from pydantic import BaseModel
 
 from app.core.config import Settings
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2  # bump whenever chunk or embedding text changes
 _POINTER = "CURRENT"
 _MANIFEST = "manifest.json"
 

@@ -16,13 +16,13 @@ class Settings(BaseSettings):
 
     # Ollama
     ollama_base_url: str = "http://localhost:11434"
-    llm_model: str = "qwen2.5:7b"
+    llm_model: str = "qwen3.5:4b"  # chosen by the end-to-end evaluation
     embed_model: str = "bge-m3"
     llm_num_ctx: int = Field(8192, ge=2048)
     llm_num_predict: int = Field(512, ge=64)
     llm_temperature: float = Field(0.0, ge=0.0, le=2.0)
     llm_seed: int = 42
-    llm_think: bool | None = None
+    llm_think: bool | None = False
     llm_keep_alive: str = "30m"
     llm_max_concurrency: int = Field(2, ge=1)
     llm_timeout_s: float = Field(120.0, gt=0)

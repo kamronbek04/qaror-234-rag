@@ -53,6 +53,7 @@ A single-pass walker over `div#divCont` classifies elements by class and builds 
 
 ### D3. One normalization function for index and query; light Uzbek stemmer for BM25 only
 - `normalize()` maps all apostrophe variants to ASCII `'` (both oʻ/gʻ and tutuq belgisi — users type `'`), transliterates Uzbek Cyrillic (ў→o', ғ→g', қ→q, ҳ→h, ш→sh, ч→ch, ё→yo, ю→yu, я→ya, е→ye word-initially/after vowels else e, ц→ts, ъ→', ь→∅), NFC-normalizes and collapses whitespace.
+- Typographic double quotes (“ ” « ») are left untouched. Converting them to ASCII `"` made the model copy a bare `"` into its JSON answer, and the schema-constrained decoder then closed the string early: live answers were cut off right before quoted titles such as “Atrof-muhitga taʼsirni baholash…”. The index schema version was bumped, so existing indexes are rebuilt.
 - Dense text keeps casing; lexical text is lowercased, tokenized on non-letters (keeping in-word `'` and `-`), and stemmed.
 - Stemmer: ordered longest-first inflectional suffixes (plural `-lar`; third-person possessive `-lari -si -i`; case `-ning -ni -ga -da -dan -dagi -gacha`, plus doubled datives `-qqa`/`-kka`), up to 3 stripping passes, minimum stem length 3, and the `-lig → -lik` alternation (vazirligi → vazirlik). First/second-person possessives are left out on purpose: legal text never uses them, and stripping them over-stems words such as "monitoring".
 
@@ -143,7 +144,7 @@ Protocols: `Embedder`, `VectorStore`, `LexicalIndex`, `ChatModel`, `Retriever`, 
 
 ### D14. Default models
 - Embedding model: `bge-m3`.
-- Chat model: chosen by the end-to-end evaluation among `qwen2.5:7b` (the task's suggestion and a strong JSON follower), `qwen3.5:4b` (201 languages, 3.4 GB) and `qwen3.5:9b` (best quality, but 6.6 GB plus the 1.2 GB embedder approaches the 8 GB VRAM limit). Until evaluated, the default is `qwen2.5:7b`.
+- Chat model: chosen by the end-to-end evaluation among `qwen2.5:7b` (the task's suggestion), `qwen3.5:4b` (201 languages, 3.4 GB) and `qwen3.5:9b` (6.6 GB). **Result: `qwen3.5:4b`** — fact accuracy 0.943, zero false refusals, refusal precision 0.923, partial accuracy 0.75, p95 4.6 s. `qwen2.5:7b` falsely refused 11% of in-document questions (fact accuracy 0.800); `qwen3.5:9b` was close in quality (0.914) but slower (p95 6.7 s). `LLM_THINK=false` is the default because qwen3.5 is a thinking model and Ollama 0.34 accepts the flag for non-thinking models too.
 - Settings: `OLLAMA_MAX_LOADED_MODELS=2`, `keep_alive=30m`. The documented CPU-only fallback is `qwen3.5:4b`.
 
 ### D15. Containers
@@ -201,6 +202,7 @@ Greenfield service — nothing to migrate. Deploy with `docker compose up -d` (o
 
 ## Open Questions
 
-- Which chat model becomes the default (`qwen2.5:7b` vs `qwen3.5:4b` vs `qwen3.5:9b`) — decided by the end-to-end evaluation; configuration-only change.
-- The exact refusal-threshold value — set from the retrieval evaluation; configuration-only change.
-- Whether `qwen3-embedding:0.6b` beats `bge-m3` on this corpus — decided by the retrieval evaluation; configuration change plus reindex.
+None left open. All three questions were answered by measurement:
+- **Default chat model:** `qwen3.5:4b` (see D14; report `eval/reports/20260911T085845-e2e.md`).
+- **Refusal threshold:** 0.50. The sweep shows it stops 8/15 out-of-document questions and 0/39 in-document ones; 0.55 starts refusing in-document questions (report `eval/reports/20260911T084932-retrieval.md`).
+- **Embedding model:** `bge-m3` kept. Retrieval already meets the target (hit@5 0.949), so `qwen3-embedding` was not needed.

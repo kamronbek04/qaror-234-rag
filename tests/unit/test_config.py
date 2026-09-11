@@ -8,23 +8,23 @@ def test_defaults_match_documented_values():
     settings = Settings(_env_file=None)
 
     assert settings.ollama_base_url == "http://localhost:11434"
-    assert settings.llm_model == "qwen2.5:7b"
+    assert settings.llm_model == "qwen3.5:4b"
     assert settings.embed_model == "bge-m3"
     assert settings.llm_num_ctx == 8192
     assert settings.llm_temperature == 0.0
     assert settings.retrieval_top_k == 6
     assert settings.chunk_strategy == "structural"
-    assert settings.llm_think is None
+    assert settings.llm_think is False
 
 
 def test_environment_overrides_defaults(monkeypatch):
-    monkeypatch.setenv("LLM_MODEL", "qwen3.5:4b")
+    monkeypatch.setenv("LLM_MODEL", "qwen2.5:7b")
     monkeypatch.setenv("REFUSAL_THRESHOLD", "0.5")
     monkeypatch.setenv("LLM_THINK", "false")
 
     settings = load_settings(env_file=None)
 
-    assert settings.llm_model == "qwen3.5:4b"
+    assert settings.llm_model == "qwen2.5:7b"
     assert settings.refusal_threshold == 0.5
     assert settings.llm_think is False
 

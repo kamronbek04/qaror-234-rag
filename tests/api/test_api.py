@@ -18,7 +18,7 @@ from app.services.rag_service import RagService
 from tests.fakes import FakeChatModel, StubRetriever, reply
 
 AIRPORT = "Aeroportlar uchun muddat 25 ish kuni, toʻlov 25 BXM [a1-r2]."
-MODELS = {"qwen2.5:7b", "bge-m3:latest"}
+MODELS = {Settings(_env_file=None).llm_model, "bge-m3:latest"}
 
 
 class FakeCatalog:
@@ -223,7 +223,7 @@ class TestHealth:
             response = await client.get("/health")
 
         assert response.status_code == 503
-        assert "model_missing:qwen2.5:7b" in response.json()["problems"]
+        assert f"model_missing:{settings.llm_model}" in response.json()["problems"]
 
     async def test_unreachable_ollama(self, settings, store):
         container = make_container(
