@@ -78,4 +78,4 @@
 - [x] 10.1 Finalize `README.md` in Uzbek (overview, mermaid architecture diagram, Docker quick start, native setup for Windows/Linux/macOS, configuration table, curl and PowerShell examples, evaluation results, troubleshooting); verify every command by following it on a fresh clone
 - [x] 10.2 Finalize `docs/PRESENTATION.md` in Uzbek with the measured evaluation numbers and demo script; verify every number matches the latest report in `eval/reports/`
 - [x] 10.3 Run final quality gates: `ruff check`, `ruff format --check`, full `pytest`, `openspec validate --strict`, and review `git ls-files` so that only project files are tracked; verify all pass
-- [ ] 10.4 Push to `github.com/kamronbek04/qaror-234-rag` and verify the repository page renders the README and the latest commit
+- [x] 10.4 Push to `github.com/kamronbek04/qaror-234-rag` and verify the repository page renders the README and the latest commit

@@ -581,4 +581,5 @@ Har bir commit bitta mantiqiy qadam:
 | 6 | Gibrid retriever, BM25, Chroma, RRF, havola router, versiyali indeks |
 | 7 | Grounded answering: sxema, guard, RagService |
 | 8 | FastAPI endpointlar, health, demo sahifa, jonli testdan keyingi tuzatishlar |
-| 9 | Docker, compose, baholash tizimi va natijalar, standart model tanlovi, yakuniy hujjatlar |
+| 9 | Dockerfile, compose (CPU + GPU override), Makefile |
+| 10 | Baholash tizimi va natijalar, qo'shtirnoq tuzatishi, standart model tanlovi (`qwen3.5:4b`), yakuniy hujjatlar |
