@@ -34,7 +34,7 @@ class Settings(BaseSettings):
     retrieval_candidates: int = Field(30, ge=5, le=200)
     expansion_max: int = Field(3, ge=0, le=10)
     context_token_budget: int = Field(3500, ge=500)
-    refusal_threshold: float = Field(0.40, ge=0.0, le=1.0)
+    refusal_threshold: float = Field(0.50, ge=0.0, le=1.0)
 
     # Chunking
     chunk_strategy: Literal["structural", "fixed"] = "structural"

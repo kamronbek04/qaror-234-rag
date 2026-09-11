@@ -223,7 +223,7 @@ Barcha sozlamalar muhit o'zgaruvchilari yoki `.env` orqali beriladi (namuna: [`.
 | `RETRIEVAL_TOP_K` | `6` | Kontekstga olinadigan bo'laklar soni |
 | `RETRIEVAL_CANDIDATES` | `30` | Dense va BM25 qidiruvning har biridan olinadigan nomzodlar |
 | `CONTEXT_TOKEN_BUDGET` | `3500` | Kontekstdagi bo'laklar uchun token chegarasi |
-| `REFUSAL_THRESHOLD` | `0.40` | Ishonch filtri chegarasi. Qiymat eval bilan kalibrlanadi |
+| `REFUSAL_THRESHOLD` | `0.50` | Ishonch filtri chegarasi. Qiymat eval bilan kalibrlanadi |
 | `CHUNK_STRATEGY` | `structural` | `structural` yoki `fixed` (taqqoslash uchun) |
 | `CHUNK_MAX_CHARS` | `1500` | Bo'lakning maksimal uzunligi |
 | `INDEX_DIR` | `data/index` | Indeks saqlanadigan joy |

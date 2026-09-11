@@ -39,14 +39,14 @@
 - [x] 5.4 Implement RRF fusion with document-order tie-break; verify unit tests for ranking and ties
 - [x] 5.5 Implement the explicit-reference router; verify "2-ilovaning 6-bandida nima deyilgan?" → `a2-b6`, "Qarorning 7-bandi" → `q-b7`, "1-ilova 2-qator" → `a1-r2`
 - [x] 5.6 Implement `HybridRetriever` (query normalization, dense + BM25 candidates, fusion, pinned references, cross-reference expansion, context budget, relevance signal); verify tests over a fixture index built with `FakeEmbedder`
-- [ ] 5.7 Implement the ingestion pipeline with fingerprinted versioned index directories, atomic `CURRENT` pointer and pruning, plus `python -m app.cli ingest [--refresh] [--strategy]`; verify a FakeEmbedder test of the atomic swap and a real run against Ollama that writes a manifest with the expected chunk count
+- [x] 5.7 Implement the ingestion pipeline with fingerprinted versioned index directories, atomic `CURRENT` pointer and pruning, plus `python -m app.cli ingest [--refresh] [--strategy]`; verify a FakeEmbedder test of the atomic swap and a real run against Ollama that writes a manifest with the expected chunk count
 
 ## 6. Grounded answering
 
-- [ ] 6.1 Implement `app/generation/prompts.py` (system rules, Uzbek few-shot examples, excerpt block, token budget); verify a unit test on the rendered prompt structure and budget trimming
-- [ ] 6.2 Implement `OllamaChatModel` (JSON-schema `format`, temperature 0, seed, explicit `num_ctx`, optional `think`, timeouts, errors → `LLMUnavailableError`); verify unit tests with a fake client that the request carries these options
-- [ ] 6.3 Implement `AnswerGuard` (refusal constant, citation filtering, number verification, partial suffix); verify unit tests for every `grounded-answering` scenario that does not need a real model
-- [ ] 6.4 Implement `RagService` (retrieve → gate → generate under semaphore → verify → one retry → respond, with debug trace); verify tests with `FakeChatModel`: the gate skips the model, a wrong number triggers retry then refusal, a fabricated citation yields refusal, malformed output twice yields refusal, a correct answer passes
+- [x] 6.1 Implement `app/generation/prompts.py` (system rules, Uzbek few-shot examples, excerpt block, token budget); verify a unit test on the rendered prompt structure and budget trimming
+- [x] 6.2 Implement `OllamaChatModel` (JSON-schema `format`, temperature 0, seed, explicit `num_ctx`, optional `think`, timeouts, errors → `LLMUnavailableError`); verify unit tests with a fake client that the request carries these options
+- [x] 6.3 Implement `AnswerGuard` (refusal constant, citation filtering, number verification, partial suffix); verify unit tests for every `grounded-answering` scenario that does not need a real model
+- [x] 6.4 Implement `RagService` (retrieve → gate → generate under semaphore → verify → one retry → respond, with debug trace); verify tests with `FakeChatModel`: the gate skips the model, a wrong number triggers retry then refusal, a fabricated citation yields refusal, malformed output twice yields refusal, a correct answer passes
 
 ## 7. HTTP API and demo page
 

@@ -170,6 +170,8 @@ class Answer(BaseModel):
     status: AnswerStatus
     citations: list[str] = Field(default_factory=list)
     sources: list[ScoredChunk] = Field(default_factory=list)
+    model: str | None = None
+    timings_ms: dict[str, int] = Field(default_factory=dict)
     debug: dict[str, Any] = Field(default_factory=dict)
 
     @computed_field  # type: ignore[prop-decorator]

@@ -33,3 +33,5 @@ def configure_logging(level: str = "INFO") -> None:
     root = logging.getLogger()
     root.handlers = [handler]
     root.setLevel(level.upper())
+    for noisy in ("httpx", "httpcore", "chromadb"):
+        logging.getLogger(noisy).setLevel(logging.WARNING)

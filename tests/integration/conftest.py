@@ -2,6 +2,7 @@
 
 import httpx
 import pytest
+import pytest_asyncio
 from ollama import AsyncClient
 
 from app.core.config import load_settings
@@ -35,7 +36,7 @@ def require_embedding_model(settings, ollama_models):
         pytest.skip(f"embedding model {settings.embed_model} is not pulled")
 
 
-@pytest.fixture(scope="session")
+@pytest_asyncio.fixture(scope="session", loop_scope="session")
 async def real_retriever(settings, require_embedding_model, document):
     embedder = OllamaEmbedder(
         AsyncClient(host=settings.ollama_base_url, timeout=settings.embed_timeout_s),
